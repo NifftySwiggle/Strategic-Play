@@ -244,7 +244,8 @@ body {
 }
 
 .hero-logo img {
-    height: 450px;
+    padding-top: 100px;
+    height: 350px;
     width: auto;
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
@@ -869,3 +870,4 @@ footer {
         padding: 15px;
     }
 }
+
