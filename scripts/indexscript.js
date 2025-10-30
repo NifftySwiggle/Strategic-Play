@@ -16,12 +16,12 @@ gsap.utils.toArray(".parallax").forEach((section) => {
     }
 });
 
-// Professional Section Scroll Animations with Reverse Effects
+// Professional Section Scroll Animations with Extended Duration & Visibility
 gsap.utils.toArray(".section").forEach((section) => {
     const title = section.querySelector("h2");
     const content = section.querySelector("p, .nft-gallery, .pass-container, .origins-gallery, .mint-collections");
     
-    // Title animation with reverse
+    // Title animation with reverse - Extended viewing time
     if (title) {
         gsap.fromTo(title, 
             {
@@ -33,23 +33,23 @@ gsap.utils.toArray(".section").forEach((section) => {
                 y: 0,
                 opacity: 1,
                 scale: 1,
-                duration: 1.2,
-                ease: "power3.out",
+                duration: 2.5,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: title,
-                    start: "top 85%",
-                    end: "top 15%",
+                    start: "top 95%",
+                    end: "top 5%",
                     toggleActions: "play reverse play reverse",
-                    onEnter: () => gsap.to(title, { rotationX: 0, duration: 0.8 }),
-                    onLeave: () => gsap.to(title, { rotationX: -10, duration: 0.5 }),
-                    onEnterBack: () => gsap.to(title, { rotationX: 0, duration: 0.8 }),
-                    onLeaveBack: () => gsap.to(title, { rotationX: 10, duration: 0.5 })
+                    onEnter: () => gsap.to(title, { rotationX: 0, duration: 1.5 }),
+                    onLeave: () => gsap.to(title, { rotationX: -10, duration: 1.0 }),
+                    onEnterBack: () => gsap.to(title, { rotationX: 0, duration: 1.5 }),
+                    onLeaveBack: () => gsap.to(title, { rotationX: 10, duration: 1.0 })
                 }
             }
         );
     }
 
-    // Content animation with reverse
+    // Content animation with reverse - Extended viewing time
     if (content) {
         gsap.fromTo(content,
             {
@@ -61,13 +61,13 @@ gsap.utils.toArray(".section").forEach((section) => {
                 y: 0,
                 opacity: 1,
                 scale: 1,
-                duration: 1.2,
-                delay: 0.2,
-                ease: "power3.out",
+                duration: 3.0,
+                delay: 0.5,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: content,
-                    start: "top 85%",
-                    end: "top 15%",
+                    start: "top 95%",
+                    end: "top 5%",
                     toggleActions: "play reverse play reverse"
                 }
             }
@@ -75,7 +75,7 @@ gsap.utils.toArray(".section").forEach((section) => {
     }
 });
 
-// Enhanced NFT Card Animations with Reverse
+// Enhanced NFT Card Animations with Extended Viewing Time
 gsap.utils.toArray(".nft-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -89,36 +89,36 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
             y: 0,
             opacity: 1,
             rotationY: 0,
-            duration: 1,
-            delay: i * 0.15,
-            ease: "back.out(1.4)",
+            duration: 2.8,
+            delay: i * 0.4,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
-                end: "top 15%",
+                start: "top 95%",
+                end: "top 5%",
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
                         boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
-                        duration: 0.3 
+                        duration: 1.0 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         boxShadow: "none",
-                        duration: 0.3 
+                        duration: 1.0 
                     });
                 }
             }
@@ -126,52 +126,52 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
     );
 });
 
-// Pass Cards Animation with Reverse Effects
+// Pass Cards Animation with Maximum Viewing Time (Obsidian Pass Fix)
 gsap.utils.toArray(".pass-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
-            x: i % 2 === 0 ? -100 : 100,
-            y: 60,
+            x: i % 2 === 0 ? -80 : 80,
+            y: 50,
             opacity: 0,
-            rotation: i % 2 === 0 ? -8 : 8,
-            scale: 0.8
+            rotation: i % 2 === 0 ? -6 : 6,
+            scale: 0.7
         },
         {
             x: 0,
             y: 0,
             opacity: 1,
             rotation: 0,
-            scale: 1,
-            duration: 1.2,
-            delay: i * 0.1,
-            ease: "power3.out",
+            scale: 0.85,
+            duration: 3.2,
+            delay: i * 0.3,
+            ease: "power2.out",
             scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                end: "top 15%",
+                trigger: ".pass-container",
+                start: "top 99%",
+                end: "bottom -50%",
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.3)",
-                        duration: 0.6 
+                        duration: 1.8 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.1)",
-                        duration: 0.4 
+                        duration: 1.2 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.3)",
-                        duration: 0.6 
+                        duration: 1.8 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         borderColor: "transparent",
-                        duration: 0.4 
+                        duration: 1.2 
                     });
                 }
             }
@@ -179,7 +179,7 @@ gsap.utils.toArray(".pass-card").forEach((card, i) => {
     );
 });
 
-// Origins Cards Animation with Advanced Reverse Effects
+// Origins Cards Animation with Extended Viewing Time
 gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -194,40 +194,40 @@ gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
             y: 0,
             opacity: 1,
             rotationX: 0,
-            duration: 1.4,
-            delay: i * 0.08,
-            ease: "elastic.out(1, 0.6)",
+            duration: 3.5,
+            delay: i * 0.25,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
-                end: "top 15%",
+                start: "top 95%",
+                end: "top 5%",
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(20px)",
                         background: "rgba(42, 42, 42, 0.98)",
-                        duration: 0.8 
+                        duration: 2.0 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(10px)",
                         background: "rgba(42, 42, 42, 0.8)",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(20px)",
                         background: "rgba(42, 42, 42, 0.98)",
-                        duration: 0.8 
+                        duration: 2.0 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(5px)",
                         background: "rgba(42, 42, 42, 0.7)",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 }
             }
@@ -235,7 +235,7 @@ gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
     );
 });
 
-// Mint Collection Cards Animation with Reverse Effects
+// Mint Collection Cards Animation with Extended Viewing Time
 gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -249,40 +249,40 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
             opacity: 1,
             scale: 1,
             rotationY: 0,
-            duration: 1.2,
-            delay: i * 0.2,
-            ease: "power4.out",
+            duration: 3.8,
+            delay: i * 0.5,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
-                end: "top 15%",
+                start: "top 95%",
+                end: "top 5%",
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.4)",
                         boxShadow: "0 10px 25px rgba(255, 215, 0, 0.1)",
-                        duration: 0.8 
+                        duration: 2.0 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.1)",
                         boxShadow: "none",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.4)",
                         boxShadow: "0 10px 25px rgba(255, 215, 0, 0.1)",
-                        duration: 0.8 
+                        duration: 2.0 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         borderColor: "transparent",
                         boxShadow: "none",
-                        duration: 0.5 
+                        duration: 1.5 
                     });
                 }
             }
@@ -290,7 +290,7 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
     );
 });
 
-// Statistics Animation with Reverse Effects
+// Statistics Animation with Extended Viewing Time
 gsap.utils.toArray(".stat-item").forEach((stat, i) => {
     gsap.fromTo(stat,
         {
@@ -302,20 +302,20 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
             scale: 1,
             opacity: 1,
             rotationY: 0,
-            duration: 0.8,
-            delay: i * 0.1,
-            ease: "back.out(1.7)",
+            duration: 3.0,
+            delay: i * 0.3,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: stat,
-                start: "top 85%",
-                end: "top 15%",
+                start: "top 95%",
+                end: "top 5%",
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(stat, { 
                         backgroundColor: "rgba(255, 215, 0, 0.05)",
                         borderColor: "rgba(255, 215, 0, 0.3)",
                         boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
-                        duration: 0.6 
+                        duration: 1.8 
                     });
                 },
                 onLeave: () => {
@@ -323,7 +323,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "transparent",
                         borderColor: "rgba(255, 255, 255, 0.1)",
                         boxShadow: "none",
-                        duration: 0.4 
+                        duration: 1.2 
                     });
                 },
                 onEnterBack: () => {
@@ -331,7 +331,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "rgba(255, 215, 0, 0.05)",
                         borderColor: "rgba(255, 215, 0, 0.3)",
                         boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
-                        duration: 0.6 
+                        duration: 1.8 
                     });
                 },
                 onLeaveBack: () => {
@@ -339,21 +339,24 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "transparent",
                         borderColor: "transparent",
                         boxShadow: "none",
-                        duration: 0.4 
+                        duration: 1.2 
                     });
                 }
             }
         }
     );
 
-    // Animate the numbers
+    // Animate the numbers - Count UP to final value
     const numberElement = stat.querySelector("span");
     if (numberElement && !isNaN(numberElement.textContent)) {
         const finalNumber = parseInt(numberElement.textContent);
-        gsap.from({ value: 0 }, {
+        // Set initial value to 0
+        numberElement.textContent = "0";
+        
+        gsap.to({ value: 0 }, {
             value: finalNumber,
-            duration: 2,
-            delay: i * 0.1 + 0.5,
+            duration: 2.5,
+            delay: i * 0.15 + 0.8,
             ease: "power2.out",
             onUpdate: function() {
                 numberElement.textContent = Math.round(this.targets()[0].value);
@@ -361,7 +364,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
             scrollTrigger: {
                 trigger: stat,
                 start: "top 85%",
-                toggleActions: "play none none reverse"
+                toggleActions: "play none none none"
             }
         });
     }
@@ -388,32 +391,22 @@ gsap.timeline()
         ease: "back.out(1.7)"
     }, "-=0.5");
 
-// Footer Animation
-gsap.from("footer", {
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out",
-    scrollTrigger: {
-        trigger: "footer",
-        start: "top 90%",
-        toggleActions: "play none none reverse"
-    }
-});
+// Footer - Always Visible (No Animation)
+// Footer is now always visible at the bottom without loading animation
 
-// Sliding Pitbits and Pixel Art Cards
+// Sliding Pitbits and Pixel Art Cards with Extended Viewing Time
 gsap.utils.toArray(".pitbit-card, .pixel-art-card").forEach((card, i) => {
     gsap.from(card, {
-        x: i % 2 === 0 ? -100 : 100,
+        x: i % 2 === 0 ? -150 : 150,
         opacity: 0,
-        duration: 1,
-        delay: i * 0.1,
-        ease: "power3.out",
+        duration: 3.0,
+        delay: i * 0.4,
+        ease: "power2.out",
         scrollTrigger: {
             trigger: card,
-            start: "top 85%",
-            end: "top 15%",
-            toggleActions: "play none none reverse"
+            start: "top 95%",
+            end: "top 5%",
+            toggleActions: "play reverse play reverse"
         }
     });
 });
