@@ -372,9 +372,10 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
 
 // Hero Section Animation (Super Fast)
 gsap.timeline()
-    .from(".hero-content h1", {
+    .from(".hero-logo img", {
         y: 80,
         opacity: 0,
+        scale: 0.8,
         duration: 0.8,
         ease: "power3.out"
     })
