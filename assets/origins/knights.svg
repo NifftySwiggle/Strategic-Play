@@ -1,0 +1,43 @@
+<svg width="280" height="180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="knightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="280" height="180" fill="url(#knightGrad)"/>
+  <!-- Two knights -->
+  <g fill="#FFD700" stroke="#1a1a1a" stroke-width="2">
+    <!-- Left knight -->
+    <ellipse cx="90" cy="140" rx="12" ry="5"/>
+    <rect x="85" y="120" width="10" height="20"/>
+    <!-- Horse head -->
+    <path d="M85 120 Q80 110 85 100 Q90 95 95 100 Q100 105 95 115 Q90 120 85 120" />
+    <!-- Mane -->
+    <path d="M85 105 Q82 100 85 95" stroke-width="1"/>
+    <path d="M87 108 Q84 103 87 98" stroke-width="1"/>
+    <!-- Eye -->
+    <circle cx="88" cy="108" r="1" fill="#1a1a1a"/>
+    
+    <!-- Right knight -->
+    <ellipse cx="190" cy="140" rx="12" ry="5"/>
+    <rect x="185" y="120" width="10" height="20"/>
+    <!-- Horse head -->
+    <path d="M185 120 Q180 110 185 100 Q190 95 195 100 Q200 105 195 115 Q190 120 185 120" />
+    <!-- Mane -->
+    <path d="M185 105 Q182 100 185 95" stroke-width="1"/>
+    <path d="M187 108 Q184 103 187 98" stroke-width="1"/>
+    <!-- Eye -->
+    <circle cx="188" cy="108" r="1" fill="#1a1a1a"/>
+  </g>
+  <!-- L-shaped movement pattern -->
+  <g stroke="#FFD700" stroke-width="2" fill="none" opacity="0.7">
+    <path d="M140 80 L140 60 L160 60"/>
+    <path d="M140 80 L140 100 L160 100"/>
+    <path d="M140 80 L120 80 L120 60"/>
+    <path d="M140 80 L120 80 L120 100"/>
+  </g>
+  <circle cx="140" cy="80" r="3" fill="#FFD700"/>
+  <text x="140" y="30" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="24" font-weight="bold">KNIGHTS</text>
+</svg>

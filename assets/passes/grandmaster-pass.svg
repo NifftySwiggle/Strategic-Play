@@ -1,0 +1,8 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#FFD700"/>
+  <rect x="10" y="10" width="280" height="180" fill="#1a1a1a" stroke="#FFD700" stroke-width="2"/>
+  <text x="150" y="60" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="24" font-weight="bold">GRANDMASTER</text>
+  <text x="150" y="90" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="16">PASS</text>
+  <circle cx="150" cy="130" r="25" fill="#FFD700"/>
+  <text x="150" y="170" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12">Premium Access</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg width="280" height="180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8F00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="kingGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="280" height="180" fill="url(#kingGrad)"/>
+  <!-- Single majestic king -->
+  <g fill="#1a1a1a" stroke="#FFD700" stroke-width="3" filter="url(#kingGlow)">
+    <ellipse cx="140" cy="145" rx="20" ry="7"/>
+    <rect x="130" y="110" width="20" height="35"/>
+    <rect x="125" y="95" width="30" height="20"/>
+    <!-- Crown -->
+    <rect x="125" y="85" width="30" height="15"/>
+    <!-- Crown points -->
+    <polygon points="125,85 130,70 135,80 140,65 145,80 150,70 155,85"/>
+    <!-- Cross on top -->
+    <line x1="140" y1="65" x2="140" y2="50" stroke="#FFD700" stroke-width="4"/>
+    <line x1="133" y1="58" x2="147" y2="58" stroke="#FFD700" stroke-width="4"/>
+    <!-- Royal orb -->
+    <circle cx="140" cy="102" r="5" fill="#FFD700"/>
+  </g>
+  <!-- King's limited movement (one square) -->
+  <g stroke="#1a1a1a" stroke-width="3" fill="none" opacity="0.7">
+    <rect x="125" y="75" width="30" height="30"/>
+  </g>
+  <g stroke="#FFD700" stroke-width="2" fill="none" opacity="0.8">
+    <rect x="127" y="77" width="26" height="26"/>
+  </g>
+  <text x="140" y="30" text-anchor="middle" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="24" font-weight="bold">KINGS</text>
+  <text x="140" y="45" text-anchor="middle" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="12">The Crown Jewel</text>
+</svg>

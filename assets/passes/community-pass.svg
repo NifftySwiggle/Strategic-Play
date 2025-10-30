@@ -1,0 +1,8 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#10b981"/>
+  <rect x="10" y="10" width="280" height="180" fill="#1a1a1a" stroke="#10b981" stroke-width="2"/>
+  <text x="150" y="60" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="24" font-weight="bold">COMMUNITY</text>
+  <text x="150" y="90" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="16">PASS</text>
+  <circle cx="150" cy="130" r="25" fill="#10b981"/>
+  <text x="150" y="170" text-anchor="middle" fill="#10b981" font-family="Arial, sans-serif" font-size="12">Community Access</text>
+</svg>

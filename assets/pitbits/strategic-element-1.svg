@@ -1,0 +1,7 @@
+<svg width="250" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="250" height="150" fill="#2a2a2a"/>
+  <rect x="10" y="10" width="230" height="130" fill="#FFD700" opacity="0.2"/>
+  <polygon points="125,30 140,60 110,60" fill="#FFD700"/>
+  <polygon points="125,70 140,100 110,100" fill="#FFD700"/>
+  <text x="125" y="125" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="14" font-weight="bold">POWER MOVES</text>
+</svg>

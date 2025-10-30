@@ -1,0 +1,10 @@
+<svg width="250" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="250" height="150" fill="#2a2a2a"/>
+  <rect x="10" y="10" width="230" height="130" fill="#ef4444" opacity="0.2"/>
+  <rect x="50" y="30" width="20" height="20" fill="#ef4444"/>
+  <rect x="90" y="30" width="20" height="20" fill="#ef4444"/>
+  <rect x="130" y="30" width="20" height="20" fill="#ef4444"/>
+  <rect x="170" y="30" width="20" height="20" fill="#ef4444"/>
+  <text x="125" y="80" text-anchor="middle" fill="#ef4444" font-family="Arial, sans-serif" font-size="16" font-weight="bold">♛ ♛ ♛ ♛</text>
+  <text x="125" y="125" text-anchor="middle" fill="#ef4444" font-family="Arial, sans-serif" font-size="12" font-weight="bold">OPENING SECRETS</text>
+</svg>
