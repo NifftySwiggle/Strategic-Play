@@ -16,7 +16,7 @@ gsap.utils.toArray(".parallax").forEach((section) => {
     }
 });
 
-// Professional Section Scroll Animations with Extended Duration & Visibility
+// Professional Section Scroll Animations with Extended Duration & Visibility (25% Faster)
 gsap.utils.toArray(".section").forEach((section) => {
     const title = section.querySelector("h2");
     const content = section.querySelector("p, .nft-gallery, .pass-container, .origins-gallery, .mint-collections");
@@ -33,17 +33,17 @@ gsap.utils.toArray(".section").forEach((section) => {
                 y: 0,
                 opacity: 1,
                 scale: 1,
-                duration: 2.5,
+                duration: 1.5,
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: title,
                     start: "top 95%",
                     end: "top 5%",
                     toggleActions: "play reverse play reverse",
-                    onEnter: () => gsap.to(title, { rotationX: 0, duration: 1.5 }),
-                    onLeave: () => gsap.to(title, { rotationX: -10, duration: 1.0 }),
-                    onEnterBack: () => gsap.to(title, { rotationX: 0, duration: 1.5 }),
-                    onLeaveBack: () => gsap.to(title, { rotationX: 10, duration: 1.0 })
+                    onEnter: () => gsap.to(title, { rotationX: 0, duration: 0.9 }),
+                    onLeave: () => gsap.to(title, { rotationX: -10, duration: 0.9 }),
+                    onEnterBack: () => gsap.to(title, { rotationX: 0, duration: 0.9 }),
+                    onLeaveBack: () => gsap.to(title, { rotationX: 10, duration: 0.6 })
                 }
             }
         );
@@ -61,8 +61,8 @@ gsap.utils.toArray(".section").forEach((section) => {
                 y: 0,
                 opacity: 1,
                 scale: 1,
-                duration: 3.0,
-                delay: 0.5,
+                duration: 1.7,
+                delay: 0.3,
                 ease: "power2.out",
                 scrollTrigger: {
                     trigger: content,
@@ -75,7 +75,7 @@ gsap.utils.toArray(".section").forEach((section) => {
     }
 });
 
-// Enhanced NFT Card Animations with Extended Viewing Time
+// Enhanced NFT Card Animations with Extended Viewing Time (25% Faster)
 gsap.utils.toArray(".nft-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -88,9 +88,9 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
             scale: 1,
             y: 0,
             opacity: 1,
-            rotationY: 0,
-            duration: 2.8,
-            delay: i * 0.4,
+            rotationX: 0,
+            duration: 1.0,
+            delay: 0.1,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
@@ -100,25 +100,25 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
                 onEnter: () => {
                     gsap.to(card, { 
                         boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
-                        duration: 1.5 
+                        duration: 0.9 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
-                        duration: 1.0 
+                        duration: 0.6 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
-                        duration: 1.5 
+                        duration: 0.9 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         boxShadow: "none",
-                        duration: 1.0 
+                        duration: 0.6 
                     });
                 }
             }
@@ -126,7 +126,7 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
     );
 });
 
-// Pass Cards Animation with Maximum Viewing Time (Obsidian Pass Fix)
+// Pass Cards Animation with Maximum Viewing Time (Obsidian Pass Fix - 25% Faster)
 gsap.utils.toArray(".pass-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -142,8 +142,8 @@ gsap.utils.toArray(".pass-card").forEach((card, i) => {
             opacity: 1,
             rotation: 0,
             scale: 0.85,
-            duration: 3.2,
-            delay: i * 0.3,
+            duration: 1.0,
+            delay: i * 0.1,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: ".pass-container",
@@ -153,25 +153,25 @@ gsap.utils.toArray(".pass-card").forEach((card, i) => {
                 onEnter: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.3)",
-                        duration: 1.8 
+                        duration: 0.5 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.1)",
-                        duration: 1.2 
+                        duration: 0.4 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.3)",
-                        duration: 1.8 
+                        duration: 0.5 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         borderColor: "transparent",
-                        duration: 1.2 
+                        duration: 0.4 
                     });
                 }
             }
@@ -179,7 +179,7 @@ gsap.utils.toArray(".pass-card").forEach((card, i) => {
     );
 });
 
-// Origins Cards Animation with Extended Viewing Time
+// Origins Cards Animation with Extended Viewing Time (25% Faster)
 gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -194,8 +194,8 @@ gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
             y: 0,
             opacity: 1,
             rotationX: 0,
-            duration: 3.5,
-            delay: i * 0.25,
+            duration: 1.2,
+            delay: i * 0.08,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
@@ -206,28 +206,28 @@ gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
                     gsap.to(card, { 
                         backdropFilter: "blur(20px)",
                         background: "rgba(42, 42, 42, 0.98)",
-                        duration: 2.0 
+                        duration: 0.6 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(10px)",
                         background: "rgba(42, 42, 42, 0.8)",
-                        duration: 1.5 
+                        duration: 0.4 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(20px)",
                         background: "rgba(42, 42, 42, 0.98)",
-                        duration: 2.0 
+                        duration: 0.6 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         backdropFilter: "blur(5px)",
                         background: "rgba(42, 42, 42, 0.7)",
-                        duration: 1.5 
+                        duration: 0.4 
                     });
                 }
             }
@@ -235,7 +235,7 @@ gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
     );
 });
 
-// Mint Collection Cards Animation with Extended Viewing Time
+// Mint Collection Cards Animation with Extended Viewing Time (25% Faster)
 gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
     gsap.fromTo(card,
         {
@@ -249,8 +249,8 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
             opacity: 1,
             scale: 1,
             rotationY: 0,
-            duration: 3.8,
-            delay: i * 0.5,
+            duration: 1.1,
+            delay: i * 0.15,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: card,
@@ -259,30 +259,30 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.4)",
-                        boxShadow: "0 10px 25px rgba(255, 215, 0, 0.1)",
-                        duration: 2.0 
+                        borderColor: "rgba(255, 215, 0, 0.3)",
+                        boxShadow: "0 8px 20px rgba(255, 215, 0, 0.2)",
+                        duration: 0.6
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.1)",
                         boxShadow: "none",
-                        duration: 1.5 
+                        duration: 0.4
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
                         borderColor: "rgba(255, 215, 0, 0.4)",
                         boxShadow: "0 10px 25px rgba(255, 215, 0, 0.1)",
-                        duration: 2.0 
+                        duration: 1.2 
                     });
                 },
                 onLeaveBack: () => {
                     gsap.to(card, { 
                         borderColor: "transparent",
                         boxShadow: "none",
-                        duration: 1.5 
+                        duration: 0.9 
                     });
                 }
             }
@@ -290,7 +290,7 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
     );
 });
 
-// Statistics Animation with Extended Viewing Time
+// Statistics Animation with Extended Viewing Time (25% Faster)
 gsap.utils.toArray(".stat-item").forEach((stat, i) => {
     gsap.fromTo(stat,
         {
@@ -302,8 +302,8 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
             scale: 1,
             opacity: 1,
             rotationY: 0,
-            duration: 3.0,
-            delay: i * 0.3,
+            duration: 1.0,
+            delay: i * 0.1,
             ease: "power2.out",
             scrollTrigger: {
                 trigger: stat,
@@ -315,7 +315,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "rgba(255, 215, 0, 0.05)",
                         borderColor: "rgba(255, 215, 0, 0.3)",
                         boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
-                        duration: 1.8 
+                        duration: 0.5 
                     });
                 },
                 onLeave: () => {
@@ -323,7 +323,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "transparent",
                         borderColor: "rgba(255, 255, 255, 0.1)",
                         boxShadow: "none",
-                        duration: 1.2 
+                        duration: 0.4 
                     });
                 },
                 onEnterBack: () => {
@@ -331,7 +331,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "rgba(255, 215, 0, 0.05)",
                         borderColor: "rgba(255, 215, 0, 0.3)",
                         boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
-                        duration: 1.8 
+                        duration: 0.5 
                     });
                 },
                 onLeaveBack: () => {
@@ -339,7 +339,7 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                         backgroundColor: "transparent",
                         borderColor: "transparent",
                         boxShadow: "none",
-                        duration: 1.2 
+                        duration: 0.4 
                     });
                 }
             }
@@ -355,8 +355,8 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
         
         gsap.to({ value: 0 }, {
             value: finalNumber,
-            duration: 2.5,
-            delay: i * 0.15 + 0.8,
+            duration: 1.2,
+            delay: i * 0.06 + 0.3,
             ease: "power2.out",
             onUpdate: function() {
                 numberElement.textContent = Math.round(this.targets()[0].value);
@@ -370,37 +370,37 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
     }
 });
 
-// Hero Section Animation
+// Hero Section Animation (Super Fast)
 gsap.timeline()
     .from(".hero-content h1", {
         y: 80,
         opacity: 0,
-        duration: 1.5,
+        duration: 0.8,
         ease: "power3.out"
     })
     .from(".hero-content p", {
         y: 40,
         opacity: 0,
-        duration: 1.2,
+        duration: 0.6,
         ease: "power3.out"
-    }, "-=0.8")
+    }, "-=0.5")
     .from(".cta-btn", {
         scale: 0.8,
         opacity: 0,
-        duration: 1,
+        duration: 0.5,
         ease: "back.out(1.7)"
-    }, "-=0.5");
+    }, "-=0.3");
 
 // Footer - Always Visible (No Animation)
 // Footer is now always visible at the bottom without loading animation
 
-// Sliding Pitbits and Pixel Art Cards with Extended Viewing Time
+// Sliding Pitbits and Pixel Art Cards with Extended Viewing Time (25% Faster)
 gsap.utils.toArray(".pitbit-card, .pixel-art-card").forEach((card, i) => {
     gsap.from(card, {
-        x: i % 2 === 0 ? -150 : 150,
+        x: i % 2 === 0 ? -120 : 120,
         opacity: 0,
-        duration: 3.0,
-        delay: i * 0.4,
+        duration: 1.0,
+        delay: i * 0.1,
         ease: "power2.out",
         scrollTrigger: {
             trigger: card,
