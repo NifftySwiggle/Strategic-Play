@@ -34,6 +34,61 @@ body {
     background: linear-gradient(45deg, #ff4000, #FF8C00);
 }
 
+/* Keyframes for pulsing glow effect */
+@keyframes pulseGlow {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 35px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 50px rgba(255, 0, 0, 0.3));
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)) brightness(1);
+    }
+    25% {
+        filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.7)) brightness(1.1);
+    }
+    50% {
+        filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.9)) brightness(1.2);
+    }
+    75% {
+        filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.7)) brightness(1.1);
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)) brightness(1);
+    }
+}
+
+@keyframes shadowPulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    }
+}
+
+@keyframes cardGlow {
+    0% {
+        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
+    }
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -51,6 +106,7 @@ body {
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
     z-index: 1000;
+    animation: shadowPulse 4s ease-in-out infinite;
 }
 
 .logo {
@@ -115,6 +171,7 @@ body {
     min-width: 200px;
     box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
     z-index: 100;
+    animation: shadowPulse 3s ease-in-out infinite;
 }
 
 .dropdown-menu li {
@@ -179,6 +236,27 @@ body {
     margin-bottom: 20px;
 }
 
+.hero-logo {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-logo img {
+    height: 450px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+    transition: all 0.3s ease;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.hero-logo img:hover {
+    transform: scale(1.05);
+    animation: pulseGlow 1.5s ease-in-out infinite;
+}
+
 .hero-content p {
     font-size: 1.5rem;
     margin-bottom: 30px;
@@ -186,7 +264,7 @@ body {
 
 .cta-btn {
     background: #ff0000;
-    color: #000;
+    color: #fff;
     padding: 15px 30px;
     border: none;
     border-radius: 5px;
@@ -272,6 +350,7 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
     border-color: rgba(255, 0, 0, 0.5);
+    animation: cardGlow 2s ease-in-out infinite;
 }
 
 .nft-preview {
@@ -323,6 +402,7 @@ body {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 35px rgba(255, 0, 0, 0.4);
     border-color: rgba(255, 0, 0, 0.5);
+    animation: cardGlow 2.5s ease-in-out infinite;
 }
 
 .pass-image {
@@ -395,6 +475,7 @@ body {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(255, 0, 0, 0.25);
     border-color: rgba(255, 0, 0, 0.6);
+    animation: cardGlow 2s ease-in-out infinite;
 }
 
 .origins-image-card img {
@@ -430,6 +511,7 @@ body {
 .pitbit-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
+    animation: cardGlow 2s ease-in-out infinite;
 }
 
 .pitbit-image {
@@ -565,6 +647,7 @@ body {
     transform: translateY(-15px) scale(1.03);
     box-shadow: 0 25px 50px rgba(255, 0, 0, 0.4);
     border-color: #ff0000;
+    animation: cardGlow 1.8s ease-in-out infinite;
 }
 
 .mint-collection-image {
@@ -614,7 +697,7 @@ body {
 
 .mint-price {
     font-weight: bold;
-    color: #ff0000;
+    color: #fbfbfb;
     font-size: 1.2rem;
 }
 
@@ -640,6 +723,7 @@ body {
     background: linear-gradient(45deg, #ff0000, #ff7700);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    animation: shadowPulse 1.5s ease-in-out infinite;
 }
 
 .mint-stats {
@@ -735,6 +819,10 @@ footer {
 
     .hero-content h1 {
         font-size: 2.5rem;
+    }
+
+    .hero-logo img {
+        height: 100px;
     }
 
     .hero-content p {
