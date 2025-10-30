@@ -99,7 +99,7 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
-                        boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
+                        boxShadow: "0 10px 30px rgba(255, 0, 0, 0.2)",
                         duration: 0.9 
                     });
                 },
@@ -111,7 +111,7 @@ gsap.utils.toArray(".nft-card").forEach((card, i) => {
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
-                        boxShadow: "0 10px 30px rgba(255, 215, 0, 0.2)",
+                        boxShadow: "0 10px 30px rgba(255, 0, 0, 0.2)",
                         duration: 0.9 
                     });
                 },
@@ -152,19 +152,19 @@ gsap.utils.toArray(".pass-card").forEach((card, i) => {
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.3)",
+                        borderColor: "rgba(255, 0, 0, 0.3)",
                         duration: 0.5 
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.1)",
+                        borderColor: "rgba(255, 0, 0, 0.1)",
                         duration: 0.4 
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.3)",
+                        borderColor: "rgba(255, 0, 0, 0.3)",
                         duration: 0.5 
                     });
                 },
@@ -259,22 +259,22 @@ gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.3)",
-                        boxShadow: "0 8px 20px rgba(255, 215, 0, 0.2)",
+                        borderColor: "rgba(255, 0, 0, 0.3)",
+                        boxShadow: "0 8px 20px rgba(255, 0, 0, 0.2)",
                         duration: 0.6
                     });
                 },
                 onLeave: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.1)",
+                        borderColor: "rgba(255, 0, 0, 0.1)",
                         boxShadow: "none",
                         duration: 0.4
                     });
                 },
                 onEnterBack: () => {
                     gsap.to(card, { 
-                        borderColor: "rgba(255, 215, 0, 0.4)",
-                        boxShadow: "0 10px 25px rgba(255, 215, 0, 0.1)",
+                        borderColor: "rgba(255, 0, 0, 0.4)",
+                        boxShadow: "0 10px 25px rgba(255, 0, 0, 0.1)",
                         duration: 1.2 
                     });
                 },
@@ -312,9 +312,9 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                 toggleActions: "play reverse play reverse",
                 onEnter: () => {
                     gsap.to(stat, { 
-                        backgroundColor: "rgba(255, 215, 0, 0.05)",
-                        borderColor: "rgba(255, 215, 0, 0.3)",
-                        boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
+                        backgroundColor: "rgba(255, 0, 0, 0.05)",
+                        borderColor: "rgba(255, 0, 0, 0.3)",
+                        boxShadow: "0 5px 15px rgba(255, 0, 0, 0.1)",
                         duration: 0.5 
                     });
                 },
@@ -328,9 +328,9 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                 },
                 onEnterBack: () => {
                     gsap.to(stat, { 
-                        backgroundColor: "rgba(255, 215, 0, 0.05)",
-                        borderColor: "rgba(255, 215, 0, 0.3)",
-                        boxShadow: "0 5px 15px rgba(255, 215, 0, 0.1)",
+                        backgroundColor: "rgba(255, 0, 0, 0.05)",
+                        borderColor: "rgba(255, 0, 0, 0.3)",
+                        boxShadow: "0 5px 15px rgba(255, 0, 0, 0.1)",
                         duration: 0.5 
                     });
                 },
@@ -422,7 +422,7 @@ function initNFTPreview() {
         preview.appendChild(renderer.domElement);
 
         const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+        const material = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
