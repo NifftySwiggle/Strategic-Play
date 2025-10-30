@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="./assets/splogo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/splogo.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Play - Web3 Chess</title>
+    <link rel="stylesheet" href="./styles/indexstyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+    <!--<div class="logo"><img src="./assets/StrategicPLayLOgotransparent .png" alt="Strategic Play Logo"></div>-->
+    <div class="logo">Strategic Play</div>
+    <div class="nav-toggle">☰</div>
+    <ul class="nav-links">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Strategic Play</a>
+            <ul class="dropdown-menu">
+                <li><a href="#origins">Origins</a></li>
+                <li><a href="#passes">Passes</a></li>
+                <li><a href="#pitbits">Pitbits</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#vision">Vision</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">GameHub</a>
+            <ul class="dropdown-menu">
+                <li><a href="#chess">Chess</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Web3 Tools</a>
+            <ul class="dropdown-menu">
+                <li><a href="#noncustodial-stake">Noncustodial Stake</a></li>
+                <li><a href="#token-airdrop">Token Airdrop</a></li>
+                <li><a href="#metadata-generator">Metadata Generator</a></li>
+                <li><a href="#nft-generator">NFT Generator</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Discover More</a>
+            <ul class="dropdown-menu">
+                <li><a href="#pixel-art">Pixel Art</a></li>
+                <li><a href="#mpc">MPC</a></li>
+            </ul>
+        </li>
+        </ul>
+        <button class="wallet-btn">Connect Wallet</button>
+    </nav>
+
+    <!-- Hero Section with Parallax -->
+    <section id="home" class="hero parallax">
+        <div class="hero-content">
+            <h1>Strategic Play</h1>
+            <p>Master the board, own the game with Web3 chess NFTs.</p>
+            <button class="cta-btn" onclick="document.getElementById('collections').scrollIntoView({behavior: 'smooth'})">Explore Collections</button>
+        </div>
+        <div class="parallax-bg"></div>
+    </section>
+
+    <!-- Collections Section with Sliding Containers -->
+    <section id="collections" class="section">
+        <h2>Our Collections</h2>
+        <div class="nft-gallery">
+            <div class="nft-card">
+                <div class="nft-preview" data-model="passes"></div>
+                <h3>Passes</h3>
+                <p>Exclusive access passes with premium features and community benefits.</p>
+            </div>
+            <div class="nft-card">
+                <div class="nft-preview" data-model="origins"></div>
+                <h3>Origins</h3>
+                <p>Discover the foundation and history of Strategic Play with unique collectibles.</p>
+            </div>
+            <div class="nft-card">
+                <div class="nft-preview" data-model="pitbits"></div>
+                <h3>Pitbits</h3>
+                <p>Bite-sized strategic elements and mini-game assets for collectors.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Passes Section -->
+    <section id="passes" class="section">
+        <h2>Passes</h2>
+        <div class="pass-container">
+            <div class="pass-card">
+                <div class="pass-image">
+                    <img src="./assets/passes/gold-pass.svg" alt="Gold Pass">
+                </div>
+                <h3>Gold Pass</h3>
+                <p>Essential access with core features and benefits.</p>
+            </div>
+            <div class="pass-card">
+                <div class="pass-image">
+                    <img src="./assets/passes/platinum-pass.svg" alt="Platinum Pass">
+                </div>
+                <h3>Platinum Pass</h3>
+                <p>Enhanced privileges and exclusive tournament access.</p>
+            </div>
+            <div class="pass-card">
+                <div class="pass-image">
+                    <img src="./assets/passes/diamond-pass.svg" alt="Diamond Pass">
+                </div>
+                <h3>Diamond Pass</h3>
+                <p>Premium tier with maximum rewards and prestige.</p>
+            </div>
+            <div class="pass-card">
+                <div class="pass-image">
+                    <img src="./assets/passes/obsidian-pass.svg" alt="Obsidian Pass">
+                </div>
+                <h3>Obsidian Pass</h3>
+                <p>Ultimate elite status with unparalleled benefits.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Origins Section -->
+    <section id="origins" class="section parallax">
+        <h2>Our Origins</h2>
+        <p>Strategic Play blends the timeless strategy of chess with Web3 innovation...</p>
+        
+        <!-- Origins Images Gallery -->
+        <div class="origins-gallery">
+            <div class="origins-image-card">
+                <img src="./assets/origins/pawns.svg" alt="Pawns">
+                <h4>Pawns</h4>
+                <p>The foundation of every strategic advance.</p>
+            </div>
+            <div class="origins-image-card">
+                <img src="./assets/origins/rooks.svg" alt="Rooks">
+                <h4>Rooks</h4>
+                <p>Commanding the ranks and files with power.</p>
+            </div>
+            <div class="origins-image-card">
+                <img src="./assets/origins/knights.svg" alt="Knights">
+                <h4>Knights</h4>
+                <p>Masters of tactical leaps and surprises.</p>
+            </div>
+            <div class="origins-image-card">
+                <img src="./assets/origins/bishops.svg" alt="Bishops">
+                <h4>Bishops</h4>
+                <p>Diagonal dominance across the battlefield.</p>
+            </div>
+            <div class="origins-image-card">
+                <img src="./assets/origins/queens.svg" alt="Queens">
+                <h4>Queens</h4>
+                <p>The ultimate combination of power and mobility.</p>
+            </div>
+            <div class="origins-image-card">
+                <img src="./assets/origins/kings.svg" alt="Kings">
+                <h4>Kings</h4>
+                <p>The crown jewel that defines victory.</p>
+            </div>
+        </div>
+        
+        <div class="parallax-bg origins-bg"></div>
+    </section>
+
+    <!-- Pitbits Section -->
+    <!--<section id="pitbits" class="section">
+        <h2>Pitbits</h2>
+        <p>Discover bite-sized strategic elements and collectible mini-game assets.</p>
+        <div class="pitbits-gallery" id="pitbits-gallery">-->
+            <!-- NFTs will be loaded here dynamically -->
+            <!--<div class="loading-message">Loading your NFTs...</div>
+        </div>
+    </section>--> 
+
+    <!-- Mint NFT Section -->
+    <section id="mint" class="section">
+        <h2>Mint NFT</h2>
+        <p>Choose your collection and mint your Strategic Play NFTs</p>
+        <div class="mint-collections">
+            <div class="mint-collection-card">
+                <div class="mint-collection-image">
+                    <img src="./assets/passes/gold-pass.svg" alt="Passes Collection">
+                </div>
+                <h3>Passes Collection</h3>
+                <p>Mint exclusive access passes with premium benefits</p>
+                <div class="mint-info">
+                    <span class="mint-price">$145-$750</span>
+                    <span class="mint-supply">SOLD OUT</span>
+                </div>
+                <button class="mint-btn" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')">Mint Passes</button>
+            </div>
+            
+            <div class="mint-collection-card">
+                <div class="mint-collection-image">
+                    <img src="./assets/origins/pawns.svg" alt="Origins Collection">
+                </div>
+                <h3>Origins Collection</h3>
+                <p>Mint the foundational chess pieces of Strategic Play</p>
+                <div class="mint-info">
+                    <span class="mint-price">$39-$149</span>
+                    <span class="mint-supply">Minting Now</span>
+                </div>
+                <button class="mint-btn" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')">Mint Origins</button>
+            </div>
+            
+            <div class="mint-collection-card">
+                <div class="mint-collection-image">
+                    <img src="./assets/pitbits/strategic-element-1.svg" alt="Pitbits Collection">
+                </div>
+                <h3>Pitbits Collection</h3>
+                <p>Mint bite-sized strategic elements and collectibles</p>
+                <div class="mint-info">
+                    <span class="mint-price">99 CRO</span>
+                    <span class="mint-supply">237/999 minted</span>
+                </div>
+                <button class="mint-btn" onclick="window.open('https://allstake.io/launches/pitbits', '_blank')">Mint Pitbits</button>
+            </div>
+        </div>
+        
+        <!-- Overall Minting Stats -->
+        <div class="mint-stats">
+            <div class="stat-item">
+                <h4>Total Collections</h4>
+                <span>3</span>
+            </div>
+            <div class="stat-item">
+                <h4>Total Holders</h4>
+                <span>---</span>
+            </div>
+            <div class="stat-item">
+                <h4>Total Supply</h4>
+                <span>---</span>
+            </div>
+            <div class="stat-item">
+                <h4>Total Minted</h4>
+                <span>---</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Strategic Play. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://x.com/strategicplay_">X</a>
+            <a href="https://discord.gg/RtZKAxdagF">Discord</a>
+            <a href="#">Whitepaper</a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="./scripts/nft-loader.js"></script>
+    <script src="./scripts/indexscript.js"></script>
+</body>
+</html>

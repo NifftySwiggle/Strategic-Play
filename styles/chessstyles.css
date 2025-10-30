@@ -1,0 +1,245 @@
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #f9fafb;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+}
+.main-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+}
+/* Responsive board container: stays square and fits device width between a sensible min and max */
+#boardContainer {
+  /* Slightly smaller defaults so game info/timers remain visible */
+  width: clamp(240px, 36vw, 420px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  touch-action: none;
+  background: #ffffffad;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Chessboard fills the container and maintains square aspect ratio */
+#chessboard {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1 / 1;
+  border: none;
+}
+#gameInfo {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: min(40vw, 560px);
+  color: #1f2937;
+}
+#white-timer.active, #black-timer.active {
+  font-weight: bold;
+  color: #dc2626;
+}
+#gameControls, #tournamentInfo {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  color: #1f2937;
+}
+#gameControls h2, #tournamentInfo h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+button {
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+#new-game-computer { background: #3b82f6; }
+#new-game-computer:hover { background: #2563eb; }
+#local-multiplayer { background: #10b981; }
+#local-multiplayer:hover { background: #059669; }
+#online-multiplayer { background: #8b5cf6; }
+#online-multiplayer:hover { background: #7c3aed; }
+#puzzle-mode { background: #f59e0b; }
+#puzzle-mode:hover { background: #d97706; }
+#tournament { background: #ef4444; }
+#tournament:hover { background: #dc2626; }
+#create-game, #startTournamentBtn { background: #3b82f6; }
+#create-game:hover, #startTournamentBtn:hover { background: #2563eb; }
+#close-online-modal, #close-tournament-modal, #delete-game, #set-name, #show-history { background: #6b7280; }
+#close-online-modal:hover, #close-tournament-modal:hover, #delete-game:hover, #set-name:hover, #show-history:hover { background: #4b5563; }
+#piece-theme, #time-mode, #color-choice {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+#promotionModal, #online-games-modal, #create-tournament-modal {
+  display: none;
+  position: fixed;
+  max-height: 80vh;
+  overflow-y: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: min(500px, 90vw);
+  color: #1f2937;
+}
+.modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+.piece-option {
+  cursor: pointer;
+  margin: 0 0.75rem;
+  width: 60px;
+  height: 60px;
+  transition: transform 0.2s ease;
+}
+.piece-option:hover {
+  transform: scale(1.15);
+}
+#available-games, #active-tournaments {
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+.game-item {
+  cursor: pointer;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s ease;
+  font-size: 0.95rem;
+}
+.game-item:hover {
+  background: #e5e7eb;
+}
+.form-label {
+  display: block;
+  text-align: left;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+#custom-time-inputs {
+  display: none;
+}
+footer {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  text-align: center;
+  color: #d1d5db;
+  font-size: 0.9rem;
+}
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+  #boardContainer, #chessboard {
+    max-width: min(90vw, 360px);
+    min-width: 180px;
+  }
+  #gameInfo {
+    max-width: min(90vw, 480px);
+  }
+  #gameControls, #tournamentInfo {
+    max-width: 400px;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+/* My Creations bottom panel */
+#my-creations {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  max-width: 920px;
+  background: rgba(255,255,255,0.95);
+  color: #111827;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.25);
+  z-index: 1100;
+  padding: 12px;
+}
+#my-creations.hidden { display: none; }
+#my-creations .my-creations-inner { display:flex; gap:12px; align-items:flex-start; justify-content:space-between; }
+#created-games-list, #created-tournaments-list { max-height: 160px; overflow-y: auto; width: 48%; }
+.creation-item { padding:8px; border-bottom:1px solid #e5e7eb; background:#fff; margin-bottom:6px; border-radius:6px; display:flex; align-items:center; justify-content:space-between; }
+#show-my-creations { background:#111827; }
