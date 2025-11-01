@@ -34,6 +34,21 @@ body {
     background: linear-gradient(45deg, #ff4000, #FF8C00);
 }
 
+/* Favicon Theme Support - CSS approach for additional browser support */
+@media (prefers-color-scheme: light) {
+    /* Light mode styles can be added here if needed */
+    :root {
+        --favicon-filter: invert(1);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    /* Dark mode styles can be added here if needed */
+    :root {
+        --favicon-filter: invert(0);
+    }
+}
+
 /* Keyframes for pulsing glow effect */
 @keyframes pulseGlow {
     0% {
