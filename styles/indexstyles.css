@@ -1,346 +1,947 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="icon" type="image/png" href="./assets/splogobare.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/splogoblack.png" />
-    <!-- Android/Chrome favicon support -->
-    <link rel="icon" type="image/png" sizes="192x192" href="./assets/splogoblack.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="./assets/splogoblack.png" />
-    <link rel="shortcut icon" href="./assets/splogoblack.png" />
-    <!-- Web App Manifest for Android -->
-    <meta name="theme-color" content="#ff0000" />
-    <meta name="msapplication-navbutton-color" content="#ff0000" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strategic Play - Web3 Chess</title>
-    <link rel="stylesheet" href="./styles/indexstyles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-    <div class="logo" onclick="document.getElementById('home').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;"><img src="./assets/splogobare.png" alt="Strategic Play Logo"></div>
-    <div class="nav-toggle">☰</div>
-    <ul class="nav-links">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle">Strategic Play</a>
-            <ul class="dropdown-menu">
-                <li><a href="#origins">Origins</a></li>
-                <li><a href="#passes">Passes</a></li>
-                <li><a href="#mint">Mint</a></li>
-                <li><a href="#roadmap">Roadmap (soon)</a></li>
-                <li><a href="#vision">Vision (soon)</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle">GameHub</a>
-            <ul class="dropdown-menu">
-                <li><a href="./chess.html" target="_blank">Chess</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle">Web3 Tools</a>
-            <ul class="dropdown-menu">
-                <li><a href="https://www.gaiaecosystem.com/stake.html" target="_blank">Noncustodial Stake</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/airdrop" target="_blank">Token Airdrop</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/updatemetadata" target="_blank">Metadata Generator</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/nftgenerator" target="_blank">NFT Generator</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle">Discover More</a>
-            <ul class="dropdown-menu">
-                <li><a href="https://www.nifftyswiggle.pw/pixeldraw" target="_blank">Pixel Art</a></li>
-                <li><a href="https://www.nifftyswiggle.pw/mpc" target="_blank">MPC</a></li>
-            </ul>
-        </li>
-        </ul>
-        <button class="wallet-btn">Connect Wallet</button>
-    </nav>
+// GSAP and ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
-    <!-- Hero Section with Parallax -->
-    <section id="home" class="hero parallax">
-        <div class="hero-content">
-            <div class="hero-logo">
-                <img src="./assets/splogo.png" alt="Strategic Play Logo">
-            </div>
-            <p>Master the board, own the game with Web3 chess NFTs.</p>
-            <button class="cta-btn" onclick="document.getElementById('collections').scrollIntoView({behavior: 'smooth'})">Explore Collections</button>
-        </div>
-        <div class="parallax-bg"></div>
-    </section>
+// Favicon Theme Detection and Dynamic Change
+function updateFavicon() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const favicon = document.querySelector('link[rel="icon"]');
+    const appleTouchIcon = document.querySelector('link[rel="apple-touch-icon"]');
+    const androidIcon192 = document.querySelector('link[rel="icon"][sizes="192x192"]');
+    const androidIcon512 = document.querySelector('link[rel="icon"][sizes="512x512"]');
+    const shortcutIcon = document.querySelector('link[rel="shortcut icon"]');
+    
+    // Set favicon based on theme
+    // For dark mode, use white/light logo; for light mode, use black/dark logo
+    const iconPath = isDarkMode ? './assets/splogobare.png' : './assets/splogoblack.png';
+    
+    // Update all favicon types
+    if (favicon) {
+        favicon.href = iconPath;
+    }
+    
+    if (appleTouchIcon) {
+        appleTouchIcon.href = iconPath;
+    }
+    
+    // Update Android-specific favicons
+    if (androidIcon192) {
+        androidIcon192.href = iconPath;
+    }
+    
+    if (androidIcon512) {
+        androidIcon512.href = iconPath;
+    }
+    
+    if (shortcutIcon) {
+        shortcutIcon.href = iconPath;
+    }
+    
+    console.log(`Theme detected: ${isDarkMode ? 'Dark' : 'Light'} mode - All favicons updated to: ${iconPath}`);
+}
 
-    <!-- Collections Section with Sliding Containers -->
-    <section id="collections" class="section">
-        <h2>Our Collections</h2>
-        <!-- Overall Minting Stats -->
-        <div class="mint-stats">
-            <div class="stat-item" data-target="3" data-suffix="">
-                <h4>Total Collections</h4>
-                <span class="stat-number">0</span>
-                <div class="stat-dropdown">
-                    <div class="stat-dropdown-content">
-                        <h5>Our Collections</h5>
-                        <div class="dropdown-item">
-                            <strong>Passes Collection</strong>
-                            <p>Exclusive access passes with premium features and community benefits. Four tiers available: Gold, Platinum, Diamond, and Obsidian.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Origins Collection</strong>
-                            <p>Foundation chess pieces representing the core of Strategic Play. Includes Pawns, Rooks, Knights, Bishops, Queens, and Kings.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Pitbits Collection</strong>
-                            <p>Bite-sized strategic elements and mini-game assets for collectors. Limited supply of 999 unique pieces.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="stat-item" data-target="11300" data-suffix="k" data-decimal="1">
-                <h4>Volume Traded</h4>
-                <span class="stat-number">0</span>
-                <div class="stat-dropdown">
-                    <div class="stat-dropdown-content">
-                        <h5>Trading Volume</h5>
-                        <div class="dropdown-item">
-                            <strong>Total Volume: 11.3k CRO</strong>
-                            <p>Cumulative trading volume across all Strategic Play collections on the Crypto.com NFT marketplace.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Average Sale Price</strong>
-                            <p>Passes: $145-$750 • Origins: $39-$149 • Pitbits: 99 CRO</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Market Performance</strong>
-                            <p>Strong community demand with consistent trading activity across all collections since launch.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="stat-item" data-target="390" data-suffix="">
-                <h4>Total Supply</h4>
-                <span class="stat-number">0</span>
-                <div class="stat-dropdown">
-                    <div class="stat-dropdown-content">
-                        <h5>Supply Breakdown</h5>
-                        <div class="dropdown-item">
-                            <strong>Passes Collection</strong>
-                            <p>Limited supply across four tiers. Each tier has unique utility and rarity levels.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Origins Collection</strong>
-                            <p>Chess piece NFTs representing the foundational elements of Strategic Play gameplay.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Pitbits Collection</strong>
-                            <p>237/999 minted • Strategic mini-game elements with utility in future game modes.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="stat-item" data-target="0" data-suffix="" data-special="---">
-                <h4>Paid Back</h4>
-                <span class="stat-number">---</span>
-                <div class="stat-dropdown">
-                    <div class="stat-dropdown-content">
-                        <h5>Community Rewards</h5>
-                        <div class="dropdown-item">
-                            <strong>Coming Soon</strong>
-                            <p>Strategic Play will implement a revenue sharing model where NFT holders receive a portion of platform earnings.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Staking Rewards</strong>
-                            <p>Future utility includes staking mechanisms for passive income generation from NFT holdings.</p>
-                        </div>
-                        <div class="dropdown-item">
-                            <strong>Tournament Prizes</strong>
-                            <p>NFT holders will have exclusive access to tournaments with CRO and prize pool distributions.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="nft-gallery">
-            <div class="nft-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="nft-preview" data-model="passes"></div>
-                <h3>Passes</h3>
-                <p>Exclusive access passes with premium features and community benefits.</p>
-            </div>
-            <div class="nft-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="nft-preview" data-model="origins"></div>
-                <h3>Origins</h3>
-                <p>Discover the foundation and history of Strategic Play with unique collectibles.</p>
-            </div>
-            <div class="nft-card" onclick="window.open('https://allstake.io/launches/pitbits', '_blank')" style="cursor: pointer;">
-                <div class="nft-preview" data-model="pitbits"></div>
-                <h3>Pitbits</h3>
-                <p>Bite-sized strategic elements and mini-game assets for collectors.</p>
-            </div>
-        </div>
-    </section>
+// Update favicon on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateFavicon();
+});
 
-    <!-- Passes Section -->
-    <section id="passes" class="section">
-        <h2>Passes</h2>
-        <div class="pass-container">
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="pass-image">
-                    <img src="./assets/passes/gold-pass.svg" alt="Gold Pass">
-                </div>
-                <h3>Gold Pass</h3>
-                <p>Essential access with core features and benefits.</p>
-            </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="pass-image">
-                    <img src="./assets/passes/platinum-pass.svg" alt="Platinum Pass">
-                </div>
-                <h3>Platinum Pass</h3>
-                <p>Enhanced privileges and exclusive tournament access.</p>
-            </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="pass-image">
-                    <img src="./assets/passes/diamond-pass.svg" alt="Diamond Pass">
-                </div>
-                <h3>Diamond Pass</h3>
-                <p>Premium tier with maximum rewards and prestige.</p>
-            </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="pass-image">
-                    <img src="./assets/passes/obsidian-pass.svg" alt="Obsidian Pass">
-                </div>
-                <h3>Obsidian Pass</h3>
-                <p>Ultimate elite status with unparalleled benefits.</p>
-            </div>
-        </div>
-    </section>
+// Listen for theme changes
+if (window.matchMedia) {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', updateFavicon);
+    
+    // Also update immediately
+    updateFavicon();
+}
 
-    <!-- Origins Section -->
-    <section id="origins" class="section parallax">
-        <h2>Our Origins</h2>
-        <p>Strategic Play blends the timeless strategy of chess with Web3 innovation...</p>
+// Mobile-responsive scroll trigger settings
+const isMobile = window.innerWidth <= 768;
+const scrollConfig = {
+    titleStart: isMobile ? "top 90%" : "top 95%",
+    titleEnd: isMobile ? "bottom 20%" : "top 5%",
+    contentStart: isMobile ? "top 85%" : "top 95%",
+    contentEnd: isMobile ? "bottom 15%" : "top 5%",
+    cardStart: isMobile ? "top 80%" : "top 95%",
+    cardEnd: isMobile ? "bottom 10%" : "top 5%"
+};
+
+// Update ScrollTrigger on resize
+window.addEventListener('resize', () => {
+    const newIsMobile = window.innerWidth <= 768;
+    if (newIsMobile !== isMobile) {
+        ScrollTrigger.refresh();
+    }
+});
+
+// Parallax for Hero, Origins, and Roadmap
+gsap.utils.toArray(".parallax").forEach((section) => {
+    const bg = section.querySelector(".parallax-bg");
+    if (bg) {
+        gsap.to(bg, {
+            yPercent: 20,
+            ease: "none",
+            scrollTrigger: {
+                trigger: section,
+                scrub: true,
+            },
+        });
+    }
+});
+
+// Professional Section Scroll Animations with Extended Duration & Visibility (25% Faster)
+gsap.utils.toArray(".section").forEach((section) => {
+    const title = section.querySelector("h2");
+    const content = section.querySelector("p, .nft-gallery, .pass-container, .origins-gallery, .mint-collections");
+    
+    // Title animation with reverse - Extended viewing time
+    if (title) {
+        gsap.fromTo(title, 
+            {
+                y: 60,
+                opacity: 0,
+                scale: 0.9
+            },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: title,
+                    start: scrollConfig.titleStart,
+                    end: scrollConfig.titleEnd,
+                    toggleActions: "play reverse play reverse",
+                    onEnter: () => gsap.to(title, { rotationX: 0, duration: 0.9 }),
+                    onLeave: () => gsap.to(title, { rotationX: -10, duration: 0.9 }),
+                    onEnterBack: () => gsap.to(title, { rotationX: 0, duration: 0.9 }),
+                    onLeaveBack: () => gsap.to(title, { rotationX: 10, duration: 0.6 })
+                }
+            }
+        );
+    }
+
+    // Content animation with reverse - Extended viewing time
+    if (content) {
+        gsap.fromTo(content,
+            {
+                y: 40,
+                opacity: 0,
+                scale: 0.95
+            },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.7,
+                delay: 0.3,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: content,
+                    start: scrollConfig.contentStart,
+                    end: scrollConfig.contentEnd,
+                    toggleActions: "play reverse play reverse"
+                }
+            }
+        );
+    }
+});
+
+// Enhanced NFT Card Animations with Extended Viewing Time (25% Faster)
+gsap.utils.toArray(".nft-card").forEach((card, i) => {
+    gsap.fromTo(card,
+        {
+            scale: 0.7,
+            y: 80,
+            opacity: 0,
+            rotationY: i % 2 === 0 ? -15 : 15
+        },
+        {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            rotationX: 0,
+            duration: 1.0,
+            delay: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: card,
+                start: isMobile ? "top 95%" : "top 99%",
+                end: isMobile ? "bottom -25%" : "bottom -100%",
+                toggleActions: "play reverse play reverse",
+                onEnter: () => {
+                    gsap.to(card, { 
+                        boxShadow: "0 10px 30px rgba(255, 0, 0, 0.2)",
+                        duration: 0.9 
+                    });
+                },
+                onLeave: () => {
+                    gsap.to(card, { 
+                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
+                        duration: 0.6 
+                    });
+                },
+                onEnterBack: () => {
+                    gsap.to(card, { 
+                        boxShadow: "0 10px 30px rgba(255, 0, 0, 0.2)",
+                        duration: 0.9 
+                    });
+                },
+                onLeaveBack: () => {
+                    gsap.to(card, { 
+                        boxShadow: "none",
+                        duration: 0.6 
+                    });
+                }
+            }
+        }
+    );
+});
+
+// Pass Cards Animation - Container-based for better multi-device support
+(() => {
+    const passContainer = document.querySelector('.pass-container');
+    if (!passContainer) return;
+    const passCards = passContainer.querySelectorAll('.pass-card');
+
+    // Animate all pass cards together as a group
+    gsap.fromTo(passCards,
+        {
+            x: (i) => i % 2 === 0 ? -80 : 80,
+            y: 50,
+            opacity: 0,
+            rotation: (i) => i % 2 === 0 ? -6 : 6,
+            scale: 0.7
+        },
+        {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            rotation: 0,
+            scale: 0.85,
+            duration: 1.0,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: passContainer,
+                start: isMobile ? "top 95%" : "top 99%",
+                end: isMobile ? "bottom -300%" : "bottom -600%",
+                toggleActions: "play reverse play reverse",
+                onEnter: () => {
+                    passCards.forEach(card => {
+                        gsap.to(card, { 
+                            borderColor: "rgba(255, 0, 0, 0.3)",
+                            duration: 0.5 
+                        });
+                    });
+                },
+                onLeave: () => {
+                    passCards.forEach(card => {
+                        gsap.to(card, { 
+                            borderColor: "rgba(255, 0, 0, 0.1)",
+                            duration: 1.4 
+                        });
+                    });
+                },
+                onEnterBack: () => {
+                    passCards.forEach(card => {
+                        gsap.to(card, { 
+                            borderColor: "rgba(255, 0, 0, 0.3)",
+                            duration: 0.5 
+                        });
+                    });
+                },
+                onLeaveBack: () => {
+                    passCards.forEach(card => {
+                        gsap.to(card, { 
+                            borderColor: "transparent",
+                            duration: 0.4 
+                        });
+                    });
+                }
+            }
+        }
+    );
+})();
+
+// Origins Cards Animation with Extended Viewing Time (25% Faster)
+gsap.utils.toArray(".origins-image-card").forEach((card, i) => {
+    gsap.fromTo(card,
+        {
+            scale: 0.6,
+            y: 80,
+            opacity: 0,
+            rotationX: -20,
+            transformOrigin: "center bottom"
+        },
+        {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            rotationX: 0,
+            duration: 1.2,
+            delay: i * 0.08,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: card,
+                start: scrollConfig.cardStart,
+                end: scrollConfig.cardEnd,
+                toggleActions: "play reverse play reverse",
+                onEnter: () => {
+                    gsap.to(card, { 
+                        backdropFilter: "blur(20px)",
+                        background: "rgba(42, 42, 42, 0.98)",
+                        duration: 0.6 
+                    });
+                },
+                onLeave: () => {
+                    gsap.to(card, { 
+                        backdropFilter: "blur(10px)",
+                        background: "rgba(42, 42, 42, 0.8)",
+                        duration: 0.4 
+                    });
+                },
+                onEnterBack: () => {
+                    gsap.to(card, { 
+                        backdropFilter: "blur(20px)",
+                        background: "rgba(42, 42, 42, 0.98)",
+                        duration: 0.6 
+                    });
+                },
+                onLeaveBack: () => {
+                    gsap.to(card, { 
+                        backdropFilter: "blur(5px)",
+                        background: "rgba(42, 42, 42, 0.7)",
+                        duration: 0.4 
+                    });
+                }
+            }
+        }
+    );
+});
+
+// Mint Collection Cards Animation with Extended Viewing Time (25% Faster)
+gsap.utils.toArray(".mint-collection-card").forEach((card, i) => {
+    gsap.fromTo(card,
+        {
+            y: 120,
+            opacity: 0,
+            scale: 0.8,
+            rotationY: i % 2 === 0 ? -10 : 10
+        },
+        {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            rotationY: 0,
+            duration: 1.1,
+            delay: i * 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: card,
+                start: scrollConfig.cardStart,
+                end: scrollConfig.cardEnd,
+                toggleActions: "play reverse play reverse",
+                onEnter: () => {
+                    gsap.to(card, { 
+                        borderColor: "rgba(255, 0, 0, 0.3)",
+                        boxShadow: "0 8px 20px rgba(255, 0, 0, 0.2)",
+                        duration: 0.6
+                    });
+                },
+                onLeave: () => {
+                    gsap.to(card, { 
+                        borderColor: "rgba(255, 0, 0, 0.1)",
+                        boxShadow: "none",
+                        duration: 0.4
+                    });
+                },
+                onEnterBack: () => {
+                    gsap.to(card, { 
+                        borderColor: "rgba(255, 0, 0, 0.4)",
+                        boxShadow: "0 10px 25px rgba(255, 0, 0, 0.1)",
+                        duration: 1.2 
+                    });
+                },
+                onLeaveBack: () => {
+                    gsap.to(card, { 
+                        borderColor: "transparent",
+                        boxShadow: "none",
+                        duration: 0.9 
+                    });
+                }
+            }
+        }
+    );
+});
+
+// Statistics Animation with Count-Up and Extended Viewing Time
+gsap.utils.toArray(".stat-item").forEach((stat, i) => {
+    // Initial entrance animation
+    gsap.fromTo(stat,
+        {
+            scale: 0.5,
+            opacity: 0,
+            rotationY: i % 2 === 0 ? -20 : 20
+        },
+        {
+            scale: 1,
+            opacity: 1,
+            rotationY: 0,
+            duration: 1.0,
+            delay: i * 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: stat,
+                start: scrollConfig.cardStart,
+                end: scrollConfig.cardEnd,
+                toggleActions: "play reverse play reverse"
+            }
+        }
+    );
+
+    // Count-up animation for numbers
+    const numberElement = stat.querySelector(".stat-number");
+    const target = parseInt(stat.dataset.target);
+    const suffix = stat.dataset.suffix || "";
+    const decimal = parseInt(stat.dataset.decimal) || 0;
+    const special = stat.dataset.special;
+    
+    if (numberElement && !special) {
+        // Set initial value to 0
+        numberElement.textContent = "0" + suffix;
         
-        <!-- Origins Images Gallery -->
-        <div class="origins-gallery">
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/pawns.svg" alt="Pawns">
-                <h4>Pawns</h4>
-                <p>The foundation of every strategic advance.</p>
-            </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/rooks.svg" alt="Rooks">
-                <h4>Rooks</h4>
-                <p>Commanding the ranks and files with power.</p>
-            </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/knights.svg" alt="Knights">
-                <h4>Knights</h4>
-                <p>Masters of tactical leaps and surprises.</p>
-            </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/bishops.svg" alt="Bishops">
-                <h4>Bishops</h4>
-                <p>Diagonal dominance across the battlefield.</p>
-            </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/queens.svg" alt="Queens">
-                <h4>Queens</h4>
-                <p>The ultimate combination of power and mobility.</p>
-            </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/kings.svg" alt="Kings">
-                <h4>Kings</h4>
-                <p>The crown jewel that defines victory.</p>
-            </div>
-        </div>
+        // Count-up animation
+        gsap.to({ value: 0 }, {
+            value: target,
+            duration: 2.5,
+            delay: i * 0.2 + 0.5,
+            ease: "power2.out",
+            onUpdate: function() {
+                let currentValue = this.targets()[0].value;
+                
+                // Special handling for volume (11.3k format)
+                if (suffix === "k") {
+                    let displayValue = (currentValue / 1000).toFixed(decimal);
+                    numberElement.textContent = displayValue + suffix;
+                } else {
+                    numberElement.textContent = Math.round(currentValue) + suffix;
+                }
+            },
+            scrollTrigger: {
+                trigger: stat,
+                start: isMobile ? "top 70%" : "top 85%",
+                toggleActions: "play none none reset"
+            }
+        });
+    }
+    
+    // Add enhanced hover effects
+    stat.addEventListener('mouseenter', () => {
+        gsap.to(stat, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power2.out"
+        });
         
-        <div class="parallax-bg origins-bg"></div>
-    </section>
+        // Pulse effect on number
+        gsap.to(numberElement, {
+            scale: 1.2,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+    
+    stat.addEventListener('mouseleave', () => {
+        gsap.to(stat, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+        
+        gsap.to(numberElement, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
 
-    <!-- Pitbits Section -->
-    <!--<section id="pitbits" class="section">
-        <h2>Pitbits</h2>
-        <p>Discover bite-sized strategic elements and collectible mini-game assets.</p>
-        <div class="pitbits-gallery" id="pitbits-gallery">-->
-            <!-- NFTs will be loaded here dynamically -->
-            <!--<div class="loading-message">Loading your NFTs...</div>
-        </div>
-    </section>--> 
+    // Add click functionality for modal (mobile and desktop)
+    function handleStatModal(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Stat clicked, opening modal:', stat);
+        
+        const dropdown = stat.querySelector('.stat-dropdown');
+        if (!dropdown) return;
+        
+        // Get the content from the dropdown
+        const dropdownContent = dropdown.querySelector('.stat-dropdown-content');
+        if (!dropdownContent) return;
+        
+        const title = dropdownContent.querySelector('h5').textContent;
+        const items = dropdownContent.querySelectorAll('.dropdown-item');
+        
+        // Open modal with this content
+        openStatModal(title, items);
+    }
+    
+    // Add click event listener
+    stat.addEventListener('click', handleStatModal);
+    
+    // Add touch event for mobile
+    stat.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        handleStatModal(e);
+    });
+    
+    // Ensure pointer events are enabled
+    stat.style.pointerEvents = 'auto';
+    stat.style.cursor = 'pointer';
+});
 
-    <!-- Mint NFT Section -->
-    <section id="mint" class="section">
-        <h2>Mint NFT</h2>
-        <p>Choose your collection and mint your Strategic Play NFTs</p>
-        <div class="mint-collections">
-            <div class="mint-collection-card">
-                <div class="mint-collection-image">
-                    <img src="./assets/passes/gold-pass.svg" alt="Passes Collection">
-                </div>
-                <h3>Passes Collection</h3>
-                <p>Mint exclusive access passes with premium benefits</p>
-                <div class="mint-info">
-                    <span class="mint-price">$145-$750</span>
-                    <span class="mint-supply">SOLD OUT</span>
-                </div>
-                <button class="mint-btn" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')">Mint Passes</button>
-            </div>
+// Modal Functions
+function openStatModal(title, items) {
+    const modal = document.getElementById('stat-modal');
+    const modalTitle = document.getElementById('stat-modal-title');
+    const modalBody = document.getElementById('stat-modal-body');
+    
+    // Set title
+    modalTitle.textContent = title;
+    
+    // Clear and populate body
+    modalBody.innerHTML = '';
+    items.forEach(item => {
+        const modalItem = document.createElement('div');
+        modalItem.className = 'modal-item';
+        
+        const strong = item.querySelector('strong');
+        const p = item.querySelector('p');
+        
+        modalItem.innerHTML = `
+            <strong>${strong ? strong.textContent : ''}</strong>
+            <p>${p ? p.textContent : ''}</p>
+        `;
+        
+        modalBody.appendChild(modalItem);
+    });
+    
+    // Show modal with animation
+    modal.classList.add('active');
+    gsap.fromTo(modal, 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+    
+    gsap.fromTo(modal.querySelector('.stat-modal-content'), 
+        { scale: 0.8, y: 50 },
+        { scale: 1, y: 0, duration: 0.4, ease: "back.out(1.7)", delay: 0.1 }
+    );
+    
+    // Animate items in
+    gsap.fromTo(modalBody.querySelectorAll('.modal-item'),
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.3, stagger: 0.1, ease: "power2.out", delay: 0.3 }
+    );
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+}
+
+function closeStatModal() {
+    const modal = document.getElementById('stat-modal');
+    
+    gsap.to(modal.querySelector('.stat-modal-content'), {
+        scale: 0.8,
+        y: 50,
+        duration: 0.3,
+        ease: "power2.in"
+    });
+    
+    gsap.to(modal, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// Modal Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('stat-modal');
+    const closeBtn = modal.querySelector('.stat-modal-close');
+    const overlay = modal.querySelector('.stat-modal-overlay');
+    
+    // Close button
+    closeBtn.addEventListener('click', closeStatModal);
+    
+    // Overlay click
+    overlay.addEventListener('click', closeStatModal);
+    
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeStatModal();
+        }
+    });
+    
+    // Prevent modal content clicks from closing modal
+    modal.querySelector('.stat-modal-content').addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+});
+
+// Close dropdowns when clicking outside (Legacy - can be removed)
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.stat-item')) {
+        console.log('Clicking outside, closing all dropdowns'); // Debug log
+        document.querySelectorAll('.stat-item.active').forEach(item => {
+            item.classList.remove('active');
             
-            <div class="mint-collection-card">
-                <div class="mint-collection-image">
-                    <img src="./assets/origins/pawns.svg" alt="Origins Collection">
-                </div>
-                <h3>Origins Collection</h3>
-                <p>Mint the foundational chess pieces of Strategic Play</p>
-                <div class="mint-info">
-                    <span class="mint-price">$39-$149</span>
-                    <span class="mint-supply">Minting Now</span>
-                </div>
-                <button class="mint-btn" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')">Mint Origins</button>
-            </div>
+            // Reset any inline styles
+            const dropdown = item.querySelector('.stat-dropdown');
+            if (dropdown) {
+                dropdown.style.display = '';
+                dropdown.style.opacity = '';
+                dropdown.style.visibility = '';
+            }
+        });
+    }
+});
+
+// Additional initialization to ensure stat items are properly set up
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing stat items for modal...');
+    
+    // Wait for GSAP animations to complete
+    setTimeout(() => {
+        const statItems = document.querySelectorAll('.stat-item');
+        console.log('Found stat items:', statItems.length);
+        
+        statItems.forEach((item, index) => {
+            const dropdown = item.querySelector('.stat-dropdown');
+            console.log(`Stat item ${index}:`, item);
+            console.log(`Has dropdown content:`, dropdown ? 'Yes' : 'No');
             
-            <div class="mint-collection-card">
-                <div class="mint-collection-image">
-                    <img src="./assets/pitbits/strategic-element-1.svg" alt="Pitbits Collection">
-                </div>
-                <h3>Pitbits Collection</h3>
-                <p>Mint bite-sized strategic elements and collectibles</p>
-                <div class="mint-info">
-                    <span class="mint-price">99 CRO</span>
-                    <span class="mint-supply">237/999 minted</span>
-                </div>
-                <button class="mint-btn" onclick="window.open('https://allstake.io/launches/pitbits', '_blank')">Mint Pitbits</button>
-            </div>
-        </div>
-    </section>
+            if (dropdown) {
+                // Hide dropdown since we're using modal
+                dropdown.style.display = 'none';
+                
+                // Add visual indicator that item is clickable
+                item.style.cursor = 'pointer';
+                item.style.userSelect = 'none';
+                
+                // Add subtle hover effect
+                item.addEventListener('mouseenter', () => {
+                    gsap.to(item, {
+                        scale: 1.02,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(item, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+            }
+        });
+        
+        console.log('Stat modal initialization complete');
+    }, 500);
+});
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Strategic Play. All rights reserved.</p>
-        <div class="social-links">
-            <a href="https://x.com/strategicplay_" target="_blank">X</a>
-            <a href="https://discord.gg/RtZKAxdagF" target="_blank">Discord</a>
-            <a href="#" target="_blank">Whitepaper</a>
-        </div>
-    </footer>
+// Hero Section Animation (Super Fast)
+gsap.timeline()
+    .from(".hero-logo img", {
+        y: 80,
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.8,
+        ease: "power3.out"
+    })
+    .from(".hero-content p", {
+        y: 40,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.out"
+    }, "-=0.5")
+    .from(".cta-btn", {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+    }, "-=0.3");
 
-    <!-- Stat Modal -->
-    <div id="stat-modal" class="stat-modal">
-        <div class="stat-modal-overlay"></div>
-        <div class="stat-modal-content">
-            <button class="stat-modal-close" aria-label="Close modal">×</button>
-            <div class="stat-modal-header">
-                <h2 id="stat-modal-title">Stat Information</h2>
-            </div>
-            <div class="stat-modal-body" id="stat-modal-body">
-                <!-- Content will be populated by JavaScript -->
-            </div>
-        </div>
-    </div>
+// Footer - Always Visible (No Animation)
+// Footer is now always visible at the bottom without loading animation
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="./scripts/nft-loader.js"></script>
-    <script src="./scripts/indexscript.js"></script>
-</body>
-</html>
+// Sliding Pitbits and Pixel Art Cards with Extended Viewing Time (25% Faster)
+gsap.utils.toArray(".pitbit-card, .pixel-art-card").forEach((card, i) => {
+    gsap.from(card, {
+        x: i % 2 === 0 ? -120 : 120,
+        opacity: 0,
+        duration: 1.0,
+        delay: i * 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+            trigger: card,
+            start: "top 95%",
+            end: "top 5%",
+            toggleActions: "play reverse play reverse"
+        }
+    });
+});
+
+// 3D NFT Preview (Three.js)
+function initNFTPreview() {
+    const previews = document.querySelectorAll(".nft-preview");
+    previews.forEach((preview) => {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, preview.clientWidth / preview.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(preview.clientWidth, preview.clientHeight);
+        preview.appendChild(renderer.domElement);
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0xFF0000 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize Handling
+        window.addEventListener("resize", () => {
+            renderer.setSize(preview.clientWidth, preview.clientHeight);
+            camera.aspect = preview.clientWidth / preview.clientHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        // Hover Interaction
+        preview.addEventListener("mouseenter", () => {
+            gsap.to(cube.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.3 });
+        });
+        preview.addEventListener("mouseleave", () => {
+            gsap.to(cube.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
+        });
+    });
+}
+initNFTPreview();
+
+// Mobile Menu Toggle
+const navToggle = document.querySelector(".nav-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+navToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+// Dropdown Animations
+gsap.utils.toArray(".dropdown").forEach((dropdown) => {
+    const menu = dropdown.querySelector(".dropdown-menu");
+    gsap.from(menu.children, {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "power2.out",
+        paused: true,
+    });
+
+    // Desktop: Hover to show dropdown
+    dropdown.addEventListener("mouseenter", () => {
+        if (window.innerWidth > 768) {
+            gsap.to(menu.children, {
+                y: 0,
+                opacity: 1,
+                duration: 0.5,
+                stagger: 0.1,
+                ease: "power2.out",
+            });
+        }
+    });
+
+    dropdown.addEventListener("mouseleave", () => {
+        if (window.innerWidth > 768) {
+            gsap.to(menu.children, {
+                y: 20,
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+            });
+        }
+    });
+
+    // Mobile: Tap to toggle dropdown
+    dropdown.querySelector(".dropdown-toggle").addEventListener("click", (e) => {
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            dropdown.classList.toggle("active");
+            if (dropdown.classList.contains("active")) {
+                gsap.to(menu.children, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "power2.out",
+                });
+            } else {
+                gsap.to(menu.children, {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                });
+            }
+        }
+    });
+});
+
+// Countdown Timer (only if timer element exists)
+function startCountdown() {
+    const timer = document.getElementById("timer");
+    if (!timer) return; // Exit if timer element doesn't exist
+    
+    let timeLeft = 3600; // 1 hour in seconds
+    setInterval(() => {
+        const hours = Math.floor(timeLeft / 3600);
+        const minutes = Math.floor((timeLeft % 3600) / 60);
+        const seconds = timeLeft % 60;
+        timer.textContent = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        timeLeft--;
+    }, 1000);
+}
+startCountdown();
+
+// Wallet Connection (Placeholder)
+document.querySelector(".wallet-btn").addEventListener("click", async () => {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            alert("Wallet connected!");
+        } catch (error) {
+            console.error("Wallet connection failed:", error);
+        }
+    } else {
+        alert("Please install MetaMask!");
+    }
+});
+
+// NFT Loading for Pitbits (Only if gallery exists)
+const NFT_CONTRACT_ADDRESS = "0x93Fdd235576203c533269e2AcEB0674068DafA7D";
+
+async function loadNFTs() {
+    const gallery = document.getElementById('pitbits-gallery');
+    
+    if (!gallery) {
+        console.log('Pitbits gallery not found - section is commented out in HTML');
+        return;
+    }
+
+    try {
+        // Show loading message
+        gallery.innerHTML = '<div class="loading-message">Loading NFTs from collection...</div>';
+        
+        // Initialize NFT loader (no wallet connection needed)
+        const nftLoader = new window.NFTLoader(NFT_CONTRACT_ADDRESS);
+        
+        // Load NFTs from public APIs
+        const nfts = await nftLoader.loadNFTs();
+        
+        // Clear gallery
+        gallery.innerHTML = '';
+        
+        // Display NFTs
+        if (nfts && nfts.length > 0) {
+            nfts.slice(0, 4).forEach((nft, index) => {
+                const pitbitCard = createNFTCard(nft, index);
+                gallery.appendChild(pitbitCard);
+                
+                // Add GSAP animation
+                gsap.from(pitbitCard, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.6,
+                    delay: index * 0.1,
+                    ease: "power2.out"
+                });
+            });
+        } else {
+            gallery.innerHTML = '<div class="nft-error">No NFTs found. Showing collection preview.</div>';
+        }
+        
+    } catch (error) {
+        console.error('Error loading NFTs:', error);
+        gallery.innerHTML = '<div class="nft-error">Loading collection preview...</div>';
+        
+        // Always show fallback content
+        setTimeout(async () => {
+            const nftLoader = new window.NFTLoader(NFT_CONTRACT_ADDRESS);
+            const fallbackNFTs = await nftLoader.getContractBasedNFTs();
+            gallery.innerHTML = '';
+            
+            fallbackNFTs.forEach((nft, index) => {
+                const pitbitCard = createNFTCard(nft, index);
+                gallery.appendChild(pitbitCard);
+            });
+        }, 1000);
+    }
+}
+
+function createNFTCard(nft, index) {
+    const card = document.createElement('div');
+    card.className = 'pitbit-card';
+    
+    // Handle image with fallback
+    const imageUrl = nft.image || `./assets/pitbits/strategic-element-${(index % 4) + 1}.svg`;
+    
+    // Determine rarity color
+    const rarityColors = {
+        'Common': '#4CAF50',
+        'Uncommon': '#2196F3', 
+        'Rare': '#9C27B0',
+        'Epic': '#FF9800',
+        'Legendary': '#F44336'
+    };
+    
+    const rarity = nft.traits.find(trait => trait.trait_type === 'Rarity')?.value || 'Common';
+    const rarityColor = rarityColors[rarity] || '#FFD700';
+    
+    card.innerHTML = `
+        <div class="pitbit-image">
+            <img src="${imageUrl}" alt="${nft.name}" onerror="this.src='./assets/pitbits/strategic-element-${(index % 4) + 1}.svg'">
+        </div>
+        <h3>${nft.name}</h3>
+        <p>${nft.description}</p>
+        <div class="nft-id">Token ID: ${nft.id}</div>
+        ${rarity !== 'Common' ? `<div class="nft-rarity" style="color: ${rarityColor};">${rarity}</div>` : ''}
+    `;
+    
+    return card;
+}
+
+// Load NFTs when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for other scripts to load
+    setTimeout(() => {
+        if (window.NFTLoader) {
+            loadNFTs();
+        } else {
+            console.error('NFTLoader not available');
+            document.getElementById('pitbits-gallery').innerHTML = '<div class="nft-error">NFT loader failed to initialize.</div>';
+        }
+    }, 1000);
+});
