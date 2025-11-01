@@ -401,14 +401,19 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
 
     // Count-up animation for numbers
     const numberElement = stat.querySelector(".stat-number");
-    const target = parseInt(stat.dataset.target);
+    const target = parseFloat(stat.dataset.target);
     const suffix = stat.dataset.suffix || "";
     const decimal = parseInt(stat.dataset.decimal) || 0;
+    const prefix = stat.dataset.prefix || "";
     const special = stat.dataset.special;
     
     if (numberElement && !special) {
         // Set initial value to 0
-        numberElement.textContent = "0" + suffix;
+        if (prefix) {
+            numberElement.textContent = prefix + "0" + (decimal > 0 ? "." + "0".repeat(decimal) : "") + suffix;
+        } else {
+            numberElement.textContent = "0" + suffix;
+        }
         
         // Count-up animation
         gsap.to({ value: 0 }, {
@@ -423,8 +428,17 @@ gsap.utils.toArray(".stat-item").forEach((stat, i) => {
                 if (suffix === "k") {
                     let displayValue = (currentValue / 1000).toFixed(decimal);
                     numberElement.textContent = displayValue + suffix;
+                } else if (prefix) {
+                    // Handle prefix (like $ for currency)
+                    let displayValue = currentValue.toFixed(decimal);
+                    numberElement.textContent = prefix + displayValue + suffix;
                 } else {
-                    numberElement.textContent = Math.round(currentValue) + suffix;
+                    // Regular number formatting
+                    if (decimal > 0) {
+                        numberElement.textContent = currentValue.toFixed(decimal) + suffix;
+                    } else {
+                        numberElement.textContent = Math.round(currentValue) + suffix;
+                    }
                 }
             },
             scrollTrigger: {
