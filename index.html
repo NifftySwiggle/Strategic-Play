@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="./assets/splogoblack.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/splogoblack.png" />
+    <link rel="icon" type="image/png" href="./assets/splogobare.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/splogobare.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strategic Play - Web3 Chess</title>
@@ -28,23 +28,23 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle">GameHub</a>
             <ul class="dropdown-menu">
-                <li><a href="./chess.html">Chess</a></li>
+                <li><a href="./chess.html" target="_blank">Chess</a></li>
             </ul>
         </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle">Web3 Tools</a>
             <ul class="dropdown-menu">
-                <li><a href="https://www.gaiaecosystem.com/stake.html">Noncustodial Stake</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/airdrop">Token Airdrop</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/updatemetadata">Metadata Generator</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/nftgenerator">NFT Generator</a></li>
+                <li><a href="https://www.gaiaecosystem.com/stake.html" target="_blank">Noncustodial Stake</a></li>
+                <li><a href="#https://www.nifftyswiggle.pw/airdrop" target="_blank">Token Airdrop</a></li>
+                <li><a href="#https://www.nifftyswiggle.pw/updatemetadata" target="_blank">Metadata Generator</a></li>
+                <li><a href="#https://www.nifftyswiggle.pw/nftgenerator" target="_blank">NFT Generator</a></li>
             </ul>
         </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle">Discover More</a>
             <ul class="dropdown-menu">
-                <li><a href="https://www.nifftyswiggle.pw/pixeldraw">Pixel Art</a></li>
-                <li><a href="https://www.nifftyswiggle.pw/mpc">MPC</a></li>
+                <li><a href="https://www.nifftyswiggle.pw/pixeldraw" target="_blank">Pixel Art</a></li>
+                <li><a href="https://www.nifftyswiggle.pw/mpc" target="_blank">MPC</a></li>
             </ul>
         </li>
         </ul>
@@ -309,11 +309,25 @@
     <footer>
         <p>&copy; 2025 Strategic Play. All rights reserved.</p>
         <div class="social-links">
-            <a href="https://x.com/strategicplay_">X</a>
-            <a href="https://discord.gg/RtZKAxdagF">Discord</a>
-            <a href="#">Whitepaper</a>
+            <a href="https://x.com/strategicplay_" target="_blank">X</a>
+            <a href="https://discord.gg/RtZKAxdagF" target="_blank">Discord</a>
+            <a href="#" target="_blank">Whitepaper</a>
         </div>
     </footer>
+
+    <!-- Stat Modal -->
+    <div id="stat-modal" class="stat-modal">
+        <div class="stat-modal-overlay"></div>
+        <div class="stat-modal-content">
+            <button class="stat-modal-close" aria-label="Close modal">×</button>
+            <div class="stat-modal-header">
+                <h2 id="stat-modal-title">Stat Information</h2>
+            </div>
+            <div class="stat-modal-body" id="stat-modal-body">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
@@ -322,4 +336,3 @@
     <script src="./scripts/indexscript.js"></script>
 </body>
 </html>
-
