@@ -1,6 +1,58 @@
 // GSAP and ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
+// Favicon Theme Detection and Dynamic Change
+function updateFavicon() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const favicon = document.querySelector('link[rel="icon"]');
+    const appleTouchIcon = document.querySelector('link[rel="apple-touch-icon"]');
+    const androidIcon192 = document.querySelector('link[rel="icon"][sizes="192x192"]');
+    const androidIcon512 = document.querySelector('link[rel="icon"][sizes="512x512"]');
+    const shortcutIcon = document.querySelector('link[rel="shortcut icon"]');
+    
+    // Set favicon based on theme
+    // For dark mode, use white/light logo; for light mode, use black/dark logo
+    const iconPath = isDarkMode ? './assets/splogobare.png' : './assets/splogoblack.png';
+    
+    // Update all favicon types
+    if (favicon) {
+        favicon.href = iconPath;
+    }
+    
+    if (appleTouchIcon) {
+        appleTouchIcon.href = iconPath;
+    }
+    
+    // Update Android-specific favicons
+    if (androidIcon192) {
+        androidIcon192.href = iconPath;
+    }
+    
+    if (androidIcon512) {
+        androidIcon512.href = iconPath;
+    }
+    
+    if (shortcutIcon) {
+        shortcutIcon.href = iconPath;
+    }
+    
+    console.log(`Theme detected: ${isDarkMode ? 'Dark' : 'Light'} mode - All favicons updated to: ${iconPath}`);
+}
+
+// Update favicon on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateFavicon();
+});
+
+// Listen for theme changes
+if (window.matchMedia) {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', updateFavicon);
+    
+    // Also update immediately
+    updateFavicon();
+}
+
 // Mobile-responsive scroll trigger settings
 const isMobile = window.innerWidth <= 768;
 const scrollConfig = {
