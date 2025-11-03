@@ -43,9 +43,9 @@
             <a href="#" class="dropdown-toggle">Web3 Tools</a>
             <ul class="dropdown-menu">
                 <li><a href="https://www.gaiaecosystem.com/stake.html" target="_blank">Noncustodial Stake</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/airdrop" target="_blank">Token Airdrop</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/updatemetadata" target="_blank">Metadata Generator</a></li>
-                <li><a href="#https://www.nifftyswiggle.pw/nftgenerator" target="_blank">NFT Generator</a></li>
+                <li><a href="https://www.nifftyswiggle.pw/airdrop" target="_blank">Token Airdrop</a></li>
+                <li><a href="https://www.nifftyswiggle.pw/updatemetadata" target="_blank">Metadata Generator</a></li>
+                <li><a href="https://www.nifftyswiggle.pw/nftgenerator" target="_blank">NFT Generator</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -56,7 +56,7 @@
             </ul>
         </li>
         </ul>
-        <button class="wallet-btn">Connect Wallet</button>
+        <!--<button class="wallet-btn">Connect Wallet</button>-->
     </nav>
 
     <!-- Hero Section with Parallax -->
@@ -163,12 +163,16 @@
         </div>
         <div class="nft-gallery">
             <div class="nft-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="nft-preview" data-model="passes"></div>
+                <div class="nft-preview">
+                    <img src="./assets/passes/passes.gif" alt="Obsidian Pass" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                </div>
                 <h3>Passes</h3>
                 <p>Exclusive access passes with premium features and community benefits.</p>
             </div>
             <div class="nft-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <div class="nft-preview" data-model="origins"></div>
+                <div class="nft-preview">
+                    <img src="./assets/origins/cards/origins.gif" alt="Kings" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                </div>
                 <h3>Origins</h3>
                 <p>Discover the foundation and history of Strategic Play with unique collectibles.</p>
             </div>
@@ -184,30 +188,30 @@
     <section id="passes" class="section">
         <h2>Passes</h2>
         <div class="pass-container">
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
+            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items&attributes=%7B%22Type%22%3A%7B%22traitType%22%3A%22Type%22%2C%22values%22%3A%5B%22Gold%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
                 <div class="pass-image">
-                    <img src="./assets/passes/gold-pass.svg" alt="Gold Pass">
+                    <img src="./assets/passes/goldpass.png" alt="Gold Pass">
                 </div>
                 <h3>Gold Pass</h3>
                 <p>Essential access with core features and benefits.</p>
             </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
+            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items&attributes=%7B%22Type%22%3A%7B%22traitType%22%3A%22Type%22%2C%22values%22%3A%5B%22Platinum%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
                 <div class="pass-image">
-                    <img src="./assets/passes/platinum-pass.svg" alt="Platinum Pass">
+                    <img src="./assets/passes/platinumpass.png" alt="Platinum Pass">
                 </div>
                 <h3>Platinum Pass</h3>
                 <p>Enhanced privileges and exclusive tournament access.</p>
             </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
+            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items&attributes=%7B%22Type%22%3A%7B%22traitType%22%3A%22Type%22%2C%22values%22%3A%5B%22Diamond%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
                 <div class="pass-image">
-                    <img src="./assets/passes/diamond-pass.svg" alt="Diamond Pass">
+                    <img src="./assets/passes/diamondpass.png" alt="Diamond Pass">
                 </div>
                 <h3>Diamond Pass</h3>
                 <p>Premium tier with maximum rewards and prestige.</p>
             </div>
-            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items', '_blank')" style="cursor: pointer;">
+            <div class="pass-card" onclick="window.open('https://crypto.com/nft/collection/95ed40d2696a4692dedccc1298bad138?tab=items&attributes=%7B%22Type%22%3A%7B%22traitType%22%3A%22Type%22%2C%22values%22%3A%5B%22Obsidian%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D&asset=1c7f1eba93a5964264c2e8d4f484a190&edition=3761550616de680b8d60444c96ff3252&detail-page=MARKETPLACE', '_blank')" style="cursor: pointer;">
                 <div class="pass-image">
-                    <img src="./assets/passes/obsidian-pass.svg" alt="Obsidian Pass">
+                    <img src="./assets/passes/obsidianpass.png" alt="Obsidian Pass">
                 </div>
                 <h3>Obsidian Pass</h3>
                 <p>Ultimate elite status with unparalleled benefits.</p>
@@ -222,33 +226,33 @@
         
         <!-- Origins Images Gallery -->
         <div class="origins-gallery">
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/pawns.svg" alt="Pawns">
+            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items&attributes=%7B%22Rarity%22%3A%7B%22traitType%22%3A%22Rarity%22%2C%22values%22%3A%5B%22Pawn%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
+                <img src="./assets/origins/cards/darkpawn.png" alt="Pawns">
                 <h4>Pawns</h4>
                 <p>The foundation of every strategic advance.</p>
             </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/rooks.svg" alt="Rooks">
+            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items&attributes=%7B%22Rarity%22%3A%7B%22traitType%22%3A%22Rarity%22%2C%22values%22%3A%5B%22Rook%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
+                <img src="./assets/origins/cards/darkrook.png" alt="Rooks">
                 <h4>Rooks</h4>
                 <p>Commanding the ranks and files with power.</p>
             </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/knights.svg" alt="Knights">
+            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items&attributes=%7B%22Rarity%22%3A%7B%22traitType%22%3A%22Rarity%22%2C%22values%22%3A%5B%22Knight%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
+                <img src="./assets/origins/cards/darkknight.png" alt="Knights">
                 <h4>Knights</h4>
                 <p>Masters of tactical leaps and surprises.</p>
             </div>
-            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/bishops.svg" alt="Bishops">
+            <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items&attributes=%7B%22Rarity%22%3A%7B%22traitType%22%3A%22Rarity%22%2C%22values%22%3A%5B%22Rook%22%5D%2C%22displayType%22%3A%22string%22%2C%22range%22%3A%7B%7D%7D%7D', '_blank')" style="cursor: pointer;">
+                <img src="./assets/origins/cards/darkbishop.png" alt="Bishops">
                 <h4>Bishops</h4>
                 <p>Diagonal dominance across the battlefield.</p>
             </div>
             <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/queens.svg" alt="Queens">
+                <img src="./assets/origins/cards/darkqueen.png" alt="Queens">
                 <h4>Queens</h4>
                 <p>The ultimate combination of power and mobility.</p>
             </div>
             <div class="origins-image-card" onclick="window.open('https://crypto.com/nft/collection/f2ccb45a912acd36a16b20cc92ee84bf?tab=items', '_blank')" style="cursor: pointer;">
-                <img src="./assets/origins/kings.svg" alt="Kings">
+                <img src="./assets/origins/cards/darkking.png" alt="Kings">
                 <h4>Kings</h4>
                 <p>The crown jewel that defines victory.</p>
             </div>
@@ -274,7 +278,7 @@
         <div class="mint-collections">
             <div class="mint-collection-card">
                 <div class="mint-collection-image">
-                    <img src="./assets/passes/gold-pass.svg" alt="Passes Collection">
+                    <img src="./assets/passes/passes.gif" alt="Passes Collection">
                 </div>
                 <h3>Passes Collection</h3>
                 <p>Mint exclusive access passes with premium benefits</p>
@@ -287,7 +291,7 @@
             
             <div class="mint-collection-card">
                 <div class="mint-collection-image">
-                    <img src="./assets/origins/pawns.svg" alt="Origins Collection">
+                    <img src="./assets/origins/cards/origins.gif" alt="Origins Collection">
                 </div>
                 <h3>Origins Collection</h3>
                 <p>Mint the foundational chess pieces of Strategic Play</p>
@@ -300,7 +304,7 @@
             
             <div class="mint-collection-card">
                 <div class="mint-collection-image">
-                    <img src="./assets/pitbits/strategic-element-1.svg" alt="Pitbits Collection">
+                    <img src="./assets/pitbits/PITBITS GIF.gif" alt="Pitbits Collection">
                 </div>
                 <h3>Pitbits Collection</h3>
                 <p>Mint bite-sized strategic elements and collectibles</p>
