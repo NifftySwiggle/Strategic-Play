@@ -5,6 +5,7 @@
     return;
   }
 
+  // let ws = new WebSocket('ws://localhost:8080');
   let ws = new WebSocket('wss://strategic-play.onrender.com');
   let gameId = localStorage.getItem('gameId');
   let playerName = localStorage.getItem('playerName') || 'Player' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
@@ -20,6 +21,25 @@
   let touchStartSquare = null;
   let touchPiece = null;
   let messageQueue = [];
+  let whitePlayerName = 'Unknown';
+  let blackPlayerName = 'Unknown';
+  let soundsMuted = false;
+
+  // Sound effects
+  const sounds = {
+    move: new Audio('./assets/sounds/chess/move.mp3'),
+    take: new Audio('./assets/sounds/chess/take.mp3'),
+    gamestart: new Audio('./assets/sounds/chess/gamestart.mp3'),
+    victory: new Audio('./assets/sounds/chess/victory.mp3'),
+    check: new Audio('./assets/sounds/chess/check.mp3')
+  };
+
+  // Function to play sound if not muted
+  function playSound(soundName) {
+    if (!soundsMuted && sounds[soundName]) {
+      sounds[soundName].play().catch(e => console.log('Sound play failed:', e));
+    }
+  }
 
   const pieceThemes = {
     unicode: piece => {
@@ -52,6 +72,7 @@
   };
 
   function connectWebSocket() {
+    //ws = new WebSocket('ws://localhost:8080');
     ws = new WebSocket('wss://strategic-play.onrender.com');
     ws.onopen = () => {
       console.log('WebSocket connected');
@@ -129,21 +150,26 @@
         case 'gameStart':
           gameId = data.gameId;
           playerColor = data.color;
-          gameMode = 'online';
-          $('#white-player').text(data.whitePlayer || 'Unknown');
-          $('#black-player').text(data.blackPlayer || 'Unknown');
+          gameMode = data.gameMode || 'online';
+          whitePlayerName = data.whitePlayer || 'Unknown';
+          blackPlayerName = data.blackPlayer || 'Unknown';
+          $('#white-player').text(whitePlayerName);
+          $('#black-player').text(blackPlayerName);
           game.load(data.fen);
           board.position(data.fen);
           board.orientation(playerColor === 'w' ? 'white' : 'black');
           gameStarted = true;
+          $('#forfeit-game').show();
           $('#player-color').text(`Your Color: ${playerColor === 'w' ? 'White' : 'Black'}`);
+          // Play game start sound
+          playSound('gamestart');
           if (data.timeMode === 'none') {
-            $('#white-timer').text(`White (${data.whitePlayer || 'Unknown'}): No Timer`).show();
-            $('#black-timer').text(`Black (${data.blackPlayer || 'Unknown'}): No Timer`).show();
+            $('#white-timer').text(`White (${whitePlayerName}): No Timer`).show();
+            $('#black-timer').text(`Black (${blackPlayerName}): No Timer`).show();
             $('#status').text(`Game ${gameId} started. You play ${playerColor === 'w' ? 'White' : 'Black'} (No Timer).`);
           } else {
-            $('#white-timer').text(`White (${data.whitePlayer || 'Unknown'}): ${formatTime(data.whiteTime || data.timeControl.minutes * 60)}`).show();
-            $('#black-timer').text(`Black (${data.blackPlayer || 'Unknown'}): ${formatTime(data.blackTime || data.timeControl.minutes * 60)}`).show();
+            $('#white-timer').text(`White (${whitePlayerName}): ${formatTime(data.whiteTime || data.timeControl.minutes * 60)}`).show();
+            $('#black-timer').text(`Black (${blackPlayerName}): ${formatTime(data.blackTime || data.timeControl.minutes * 60)}`).show();
             $('#status').text(`Game ${gameId} started. You play ${playerColor === 'w' ? 'White' : 'Black'}.`);
             if (data.turn === 'w') {
               $('#white-timer').addClass('active');
@@ -162,6 +188,16 @@
             board.position(game.fen());
             $('#turn').text(`Turn: ${game.turn() === 'w' ? 'White' : 'Black'}`);
             updateGameInfo();
+            // Play sound based on whether a piece was captured
+            if (moveResult.captured) {
+              playSound('take');
+            } else {
+              playSound('move');
+            }
+            // Play check sound if opponent is in check
+            if (game.in_check()) {
+              playSound('check');
+            }
           } else {
             //console.error('Failed to apply move:', data.move);
             //$('#status').text('Error applying move. Please try again.');
@@ -172,11 +208,11 @@
         case 'timerUpdate':
           const timeStr = formatTime(data.timeLeft);
           if (data.player === 'w') {
-            $('#white-timer').text(`White (${$('#white-player').text()}): ${timeStr}`);
+            $('#white-timer').text(`White (${whitePlayerName}): ${timeStr}`);
             $('#white-timer').addClass('active');
             $('#black-timer').removeClass('active');
           } else {
-            $('#black-timer').text(`Black (${$('#black-player').text()}): ${timeStr}`);
+            $('#black-timer').text(`Black (${blackPlayerName}): ${timeStr}`);
             $('#black-timer').addClass('active');
             $('#white-timer').removeClass('active');
           }
@@ -188,13 +224,18 @@
           if (data.result === 'timeout') {
             alert(`${data.winner.charAt(0).toUpperCase() + data.winner.slice(1)} wins by timeout!`);
           }
-          $('#white-timer').text(`White (${$('#white-player').text()}): Game Over`).show();
-          $('#black-timer').text(`Black (${$('#black-player').text()}): Game Over`).show();
+          $('#white-timer').text(`White (${whitePlayerName}): Game Over`).show();
+          $('#black-timer').text(`Black (${blackPlayerName}): Game Over`).show();
+          // Play victory sound if player won
+          if (data.winner && data.winner === playerColor) {
+            playSound('victory');
+          }
           localStorage.removeItem('gameId');
           gameId = null;
           gameStarted = false;
           playerColor = null;
           gameMode = null;
+          $('#forfeit-game').hide();
           $('#delete-game').addClass('hidden');
           $('#player-color').text('Your Color: None');
           break;
@@ -204,28 +245,42 @@
           break;
 
         case 'history':
-          displayHistory(data.games);
+          displayHistory(data.games, data.tournaments);
           break;
 
         case 'tournamentCreated':
           $('#tournamentInfo').removeClass('hidden');
+          // Show Start Tournament button for creator until started
           $('#tournamentStatus').html(`Tournament <strong>${data.tournamentId}</strong> created. Waiting for players...<br>
             <button id="startTournamentBtn" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full hover:bg-blue-600">Start Tournament</button>`);
-          $('#startTournamentBtn').click(() => sendMessage({ type: 'startTournament', tournamentId: data.tournamentId }));
+          $('#startTournamentBtn').prop('disabled', false).off('click').on('click', function() {
+            $(this).prop('disabled', true);
+            sendMessage({ type: 'startTournament', tournamentId: data.tournamentId });
+          });
+          // Add to My Creations immediately
+          sendMessage({ type: 'fetchLobby' });
           break;
 
         case 'tournamentLobbyUpdate':
           $('#tournamentInfo').removeClass('hidden');
           // Determine if current client is the creator by comparing names (survives reconnects)
           const isCreatorLocal = playerName && data.creatorName && playerName === data.creatorName;
-          $('#tournamentStatus').html(
-            `Tournament <strong>${data.tournamentId}</strong> Lobby<br>
-            Players: ${data.players.map(p => `<span>${p}</span>`).join(', ')}<br>
-            ${isCreatorLocal ? '<button id="startTournamentBtn" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full hover:bg-blue-600">Start Tournament</button>' : ''}`
-          );
-          if (isCreatorLocal) {
-            $('#startTournamentBtn').click(() => sendMessage({ type: 'startTournament', tournamentId: data.tournamentId }));
+          // Only show Start Tournament button for creator if not started
+          let started = data.started !== undefined ? data.started : false;
+          let statusHtml = `Tournament <strong>${data.tournamentId}</strong> Lobby<br>
+            Players: ${data.players.map(p => `<span>${p}</span>`).join(', ')}`;
+          if (isCreatorLocal && !started) {
+            statusHtml += '<br><button id="startTournamentBtn" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full hover:bg-blue-600">Start Tournament</button>';
           }
+          $('#tournamentStatus').html(statusHtml);
+          if (isCreatorLocal && !started) {
+            $('#startTournamentBtn').prop('disabled', false).off('click').on('click', function() {
+              $(this).prop('disabled', true);
+              sendMessage({ type: 'startTournament', tournamentId: data.tournamentId });
+            });
+          }
+          // Always refresh My Creations on lobby update
+          sendMessage({ type: 'fetchLobby' });
           break;
 
         case 'tournamentRoundStart': {
@@ -262,6 +317,29 @@
           });
           html += '</ul>';
           $('#tournamentStatus').html(html);
+          break;
+        }
+
+        case 'tournamentGameAssignments': {
+          // Fallback to ensure players auto-join their assigned game if initial gameStart was missed
+          try {
+            if (Array.isArray(data.assignments) && playerName) {
+              const a = data.assignments.find(x => x.white === playerName || x.black === playerName);
+              if (a && a.gameId) {
+                gameId = a.gameId;
+                gameMode = 'tournament';
+                playerColor = a.white === playerName ? 'w' : 'b';
+                localStorage.setItem('gameId', gameId);
+                board.orientation(playerColor === 'w' ? 'white' : 'black');
+                $('#player-color').text(`Your Color: ${playerColor === 'w' ? 'White' : 'Black'}`);
+                $('#status').text(`Round ${data.round}: You are assigned to game ${gameId}. Rejoining...`);
+                // Ask server to resend game state for this assignment
+                sendMessage({ type: 'rejoinGame', gameId, name: playerName });
+              }
+            }
+          } catch (e) {
+            console.error('Error handling tournamentGameAssignments:', e);
+          }
           break;
         }
 
@@ -366,9 +444,17 @@
 
     connectWebSocket();
 
+    // Dropdown menu toggles
+    $('.dropdown-toggle').click(function(e) {
+      e.preventDefault();
+      $(this).next('.dropdown-menu').toggle();
+    });
+
     $('#online-multiplayer').click(() => $('#online-games-modal').show());
     $('#online-multiplayer').click(() => { $('#online-games-modal').show(); requestAnimationFrame(() => safeResize()); });
     $('#close-online-modal').click(() => { $('#online-games-modal').hide(); requestAnimationFrame(() => safeResize()); });
+    $('#game-lobby').click(() => { $('#game-lobby-modal').show(); requestAnimationFrame(() => safeResize()); });
+    $('#close-lobby-modal').click(() => { $('#game-lobby-modal').hide(); requestAnimationFrame(() => safeResize()); });
     // My Creations panel toggle button (floating)
     const $myToggle = $('<button id="show-my-creations" class="bg-gray-800 text-white px-3 py-2 rounded">My Creations</button>');
     $myToggle.css({ position: 'fixed', right: '12px', bottom: '12px', zIndex: 1200 });
@@ -420,6 +506,11 @@
       }
     });
     $('#show-history').click(() => sendMessage({ type: 'fetchHistory' }));
+    $('#forfeit-game').click(() => {
+      if (gameId && (gameMode === 'online' || gameMode === 'tournament')) {
+        sendMessage({ type: 'forfeit', gameId });
+      }
+    });
     $('#create-tournament-form').submit(e => {
       e.preventDefault();
       const minutes = parseInt($('#tournament-minutes').val());
@@ -447,6 +538,18 @@
       const selectedTheme = $(this).val();
       initializeBoard(selectedTheme);
     });
+
+    // Mute sounds button
+    $('#mute-sounds').click(() => {
+      soundsMuted = !soundsMuted;
+      const button = $('#mute-sounds');
+      if (soundsMuted) {
+        button.text('🔇 Sounds Off').addClass('muted');
+      } else {
+        button.text('🔊 Sounds On').removeClass('muted');
+      }
+    });
+
     $('#new-game-computer').click(() => {
       gameMode = 'computer';
       playerColor = 'w';
@@ -508,6 +611,7 @@
         }
       }
     });
+    $('#close-history-modal').click(() => $('#history-modal').hide());
   });
 
   function initializeBoard(theme = 'standard') {
@@ -531,21 +635,28 @@
 
   function updateLobby(games, tournaments) {
     const gamesList = $('#available-games').empty();
+    const lobbyGamesList = $('#lobby-available-games').empty();
     games.forEach(game => {
       const timeDisplay = game.timeControl.noTime ? 'No Timer' : `${game.timeControl.minutes}|${game.timeControl.increment}`;
       const creatorName = game.creator || 'Unknown';
       const creatorColor = game.creatorColor === 'w' ? 'White' : game.creatorColor === 'b' ? 'Black' : 'Unknown';
       const item = $(`<div class="game-item" data-game-id="${game.id}">Game by ${creatorName} (${creatorColor}) - ${game.players}/2 - ${timeDisplay}</div>`);
-      item.append($('<button class="bg-green-500 text-white px-2 py-1 rounded ml-2 hover:bg-green-600">Join</button>').click(() => {
+      const joinBtn = $('<button class="bg-green-500 text-white px-2 py-1 rounded ml-2 hover:bg-green-600">Join</button>').click(() => {
         sendMessage({ type: 'joinGame', gameId: game.id, name: playerName });
         $('#online-games-modal').hide();
-      }));
-      gamesList.append(item);
+        $('#game-lobby-modal').hide();
+      });
+      item.append(joinBtn);
+      gamesList.append(item.clone(true));
+      lobbyGamesList.append(item);
     });
 
     const tournamentList = $('#active-tournaments').empty();
+    const lobbyTournamentList = $('#lobby-active-tournaments').empty();
     if (!tournaments || tournaments.length === 0) {
-      tournamentList.append('<div class="game-item">No active tournaments</div>');
+      const noTournaments = '<div class="game-item">No active tournaments</div>';
+      tournamentList.append(noTournaments);
+      lobbyTournamentList.append(noTournaments);
     } else {
       tournaments.forEach(t => {
         const timeDisplay = t.timeControl.minutes === 0 ? 'No Timer' : `${t.timeControl.minutes}+${t.timeControl.increment}`;
@@ -563,10 +674,12 @@
           // Send joinTournament which also triggers a tournamentLobbyUpdate with full player list
           sendMessage({ type: 'joinTournament', tournamentId: t.id });
           $('#online-games-modal').hide();
+          $('#game-lobby-modal').hide();
           $('#tournamentInfo').removeClass('hidden');
           $('#tournamentStatus').text(isCreator ? `Manage Tournament ${t.name || t.id}` : `Joined Tournament ${t.name || t.id}`);
         });
-        tournamentList.append(item);
+        tournamentList.append(item.clone(true));
+        lobbyTournamentList.append(item);
       });
     }
 
@@ -612,7 +725,7 @@
     const result = game.move(move);
     if (result) {
       board.position(game.fen());
-      if (gameMode === 'online') {
+      if (gameMode === 'online' || gameMode === 'tournament') {
         sendMessage({ type: 'move', gameId, move, player: playerColor });
       } else if (gameMode === 'computer' && !game.game_over() && game.turn() !== playerColor) {
         setTimeout(computerMove, 500);
@@ -693,9 +806,37 @@
     }
   }
 
-  function displayHistory(games) {
-    const history = games.map(g => `${g.players.join(' vs ')}: ${g.result} (${new Date(g.date).toLocaleTimeString()})`).join('\n');
-    alert(history || 'No games played today.');
+  function displayHistory(games, tournaments) {
+    let content = '<h3>Recent Games</h3>';
+    if (games && games.length > 0) {
+      content += '<ul>';
+      games.forEach(g => {
+        content += `<li>${g.players.join(' vs ')}: ${g.result} (${new Date(g.date).toLocaleTimeString()})</li>`;
+      });
+      content += '</ul>';
+    } else {
+      content += '<p>No games played today.</p>';
+    }
+    content += '<h3>Completed Tournaments</h3>';
+    if (tournaments && tournaments.length > 0) {
+      tournaments.forEach(t => {
+        content += `<h4>${t.name || t.id} (${new Date(t.finishedAt).toLocaleString()})</h4>`;
+        content += '<strong>Leaderboard:</strong><ul>';
+        t.leaderboard.forEach(([player, score]) => {
+          content += `<li>${player}: ${score}</li>`;
+        });
+        content += '</ul>';
+        content += '<strong>Results:</strong><ul>';
+        t.finalResults.forEach(r => {
+          content += `<li>Round ${r.round}: ${r.white} vs ${r.black} - ${r.result}${r.winner ? ` (Winner: ${r.winner})` : ''}</li>`;
+        });
+        content += '</ul>';
+      });
+    } else {
+      content += '<p>No tournaments completed today.</p>';
+    }
+    $('#history-content').html(content);
+    $('#history-modal').show();
   }
 
   function handleTouchStart(event) {
@@ -759,9 +900,13 @@
       myTours.forEach(t => {
         const playersCount = typeof t.playersCount === 'number' ? t.playersCount : (t.players || 0);
         const $item = $(`<div class="creation-item">${t.name || t.id} - Players: ${playersCount} - Rounds: ${t.rounds}</div>`);
-        const $start = $(`<button class="bg-blue-500 text-white px-2 py-1 rounded ml-2">Start</button>`).click(() => {
-          if (confirm('Start this tournament now?')) sendMessage({ type: 'startTournament', tournamentId: t.id });
-        });
+        // Only allow Start if not started (t.started === false or undefined)
+        const $start = $(`<button class="bg-blue-500 text-white px-2 py-1 rounded ml-2">Start</button>`)
+          .prop('disabled', t.started)
+          .click(() => {
+            if (t.started) return;
+            if (confirm('Start this tournament now?')) sendMessage({ type: 'startTournament', tournamentId: t.id });
+          });
         const $del = $(`<button class="bg-red-500 text-white px-2 py-1 rounded ml-2">Delete</button>`).click(() => {
           if (confirm('Delete this tournament and cancel its games?')) sendMessage({ type: 'deleteTournament', tournamentId: t.id });
         });
