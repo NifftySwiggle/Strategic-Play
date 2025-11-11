@@ -68,7 +68,8 @@
     </ul>
     <!--<button class="wallet-btn">Connect Wallet</button>-->
   </nav>
-  <h1 class="text-4xl font-bold mb-4" style="margin-top:120px; text-align:center;">Strategic Play Chess Game</h1>
+  <h1 class="text-4xl font-bold mb-4" style="margin-top:120px; text-align:center;">Strategic Play</h1>
+  <button id="mute-sounds" class="mute-button">🔊 Sounds On</button>
   <div class="main-container">
     <div class="flex flex-col items-center">
       <div id="boardContainer">
@@ -85,20 +86,20 @@
     <div class="flex flex-col gap-4">
       <div id="gameControls" class="bg-white p-4 rounded shadow">
         <h2 class="text-xl font-semibold mb-2">Game Modes</h2>
-        <button id="new-game-computer" class="bg-blue-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-blue-600">New Game (vs Computer)</button>
-        <button id="local-multiplayer" class="bg-green-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-green-600">Local Multiplayer</button>
-        <button id="online-multiplayer" class="bg-purple-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-purple-600">Online Multiplayer</button>
-        <button id="puzzle-mode" class="bg-yellow-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-yellow-600">Puzzle Mode</button>
-        <button id="tournament" class="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600">Tournament</button>
+        <button id="game-lobby" class="bg-indigo-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-indigo-600">Game Lobby</button>
+        <button id="online-multiplayer" class="bg-purple-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-purple-600">Create Game</button>
+        <!--<button id="puzzle-mode" class="bg-yellow-500 text-white px-4 py-2 rounded mb-2 w-full hover:bg-yellow-600">Puzzle Mode</button>-->
+        <button id="tournament" class="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600">Create Tournament</button>
         <h2 class="text-xl font-semibold mb-2 mt-4">Piece Theme</h2>
         <select id="piece-theme" class="mb-2">
           <option value="standard" selected>Standard</option>
           <option value="custom">Origins</option>
           <option value="unicode">Unicode</option>
-          <option value="merida">Merida</option>
+          <!--<option value="merida">Merida</option>-->
         </select>
         <button id="delete-game" class="bg-gray-500 text-white px-4 py-2 rounded w-full hover:bg-gray-600 hidden">Delete Game</button>
         <button id="show-history" class="bg-gray-500 text-white px-4 py-2 rounded w-full hover:bg-gray-600">Show Game History</button>
+        <button id="forfeit-game" class="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600 hidden">Forfeit Game</button>
       </div>
       <div id="tournamentInfo" class="bg-white p-4 rounded shadow hidden">
         <h2 class="text-xl font-semibold mb-2">Tournament Information</h2>
@@ -153,11 +154,15 @@
       <input id="custom-increment" type="number" placeholder="Increment" min="0" value="0" class="mb-3">
     </div>
     <button id="create-game" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 mb-2 w-full hover:bg-blue-600">Create New Game</button>
-    <h3 class="text-md font-semibold mt-4">Available Games</h3>
-    <div id="available-games" class="mt-2"></div>
-    <h3 class="text-md font-semibold mt-4">Active Tournaments</h3>
-    <div id="active-tournaments" class="mt-2"></div>
     <button id="close-online-modal" class="bg-gray-500 text-white px-4 py-2 rounded mt-4 w-full hover:bg-gray-600">Close</button>
+  </div>
+  <div id="game-lobby-modal" class="modal-content">
+    <h2 class="text-lg font-semibold mb-4">Game Lobby</h2>
+    <h3 class="text-md font-semibold mt-4">Available Games</h3>
+    <div id="lobby-available-games" class="mt-2"></div>
+    <h3 class="text-md font-semibold mt-4">Active Tournaments</h3>
+    <div id="lobby-active-tournaments" class="mt-2"></div>
+    <button id="close-lobby-modal" class="bg-gray-500 text-white px-4 py-2 rounded mt-4 w-full hover:bg-gray-600">Close</button>
   </div>
   <div id="create-tournament-modal" class="modal-content">
     <h2 class="text-lg font-semibold mb-4">Create Tournament</h2>
@@ -178,6 +183,11 @@
       <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600">Create Tournament</button>
     </form>
     <button id="close-tournament-modal" class="bg-gray-500 text-white px-4 py-2 rounded w-full hover:bg-gray-600">Close</button>
+  </div>
+  <div id="history-modal" class="modal-content">
+    <h2 class="text-lg font-semibold mb-4">Game & Tournament History</h2>
+    <div id="history-content" class="mb-4"></div>
+    <button id="close-history-modal" class="bg-gray-500 text-white px-4 py-2 rounded w-full hover:bg-gray-600">Close</button>
   </div>
   <footer class="mt-8 text-center text-gray-400">
     <p>&copy; 2025 Strategic Play Chess Game</p>
