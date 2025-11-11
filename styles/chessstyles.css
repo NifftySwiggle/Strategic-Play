@@ -16,6 +16,34 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 1.5rem;
 }
+.mute-button {
+  position: fixed;
+  top: 140px;
+  right: 20px;
+  background: #374151;
+  color: #f9fafb;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(220, 38, 38, 0.2);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.mute-button:hover {
+  background: #4b5563;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(220, 38, 38, 0.3);
+  transform: translateY(-1px);
+}
+.mute-button.muted {
+  background: #dc2626;
+  border-color: #b91c1c;
+}
+.mute-button.muted:hover {
+  background: #b91c1c;
+}
 .main-container {
   width: 100%;
   max-width: 1280px;
@@ -39,9 +67,9 @@ h1 {
   align-items: center;
   margin: 0 auto;
   touch-action: none;
-  background: #ffffffad;
+  background: #374151;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.1);
   padding: 0.5rem;
   flex-shrink: 0;
 }
@@ -56,15 +84,15 @@ h1 {
   border: none;
 }
 #gameInfo {
-  background: #ffffff;
+  background: #374151;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 0, 0, 0.1);
   margin-top: 1rem;
   text-align: center;
   width: 100%;
   max-width: min(40vw, 560px);
-  color: #1f2937;
+  color: #f9fafb;
 }
 #white-timer.active, #black-timer.active {
   font-weight: bold;
@@ -73,16 +101,16 @@ h1 {
 #gameControls, #tournamentInfo {
   width: 100%;
   max-width: 360px;
-  background: #ffffff;
+  background: #374151;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  color: #1f2937;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 0, 0, 0.1);
+  color: #f9fafb;
 }
 #gameControls h2, #tournamentInfo h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
+  color: #f9fafb;
   margin-bottom: 1rem;
 }
 button {
@@ -97,30 +125,34 @@ button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-#new-game-computer { background: #3b82f6; }
+#new-game-computer { background: #ff0000; }
 #new-game-computer:hover { background: #2563eb; }
 #local-multiplayer { background: #10b981; }
 #local-multiplayer:hover { background: #059669; }
-#online-multiplayer { background: #8b5cf6; }
-#online-multiplayer:hover { background: #7c3aed; }
+#online-multiplayer { background: #b90101; }
+#online-multiplayer:hover { background: #ed3a3a; }
 #puzzle-mode { background: #f59e0b; }
 #puzzle-mode:hover { background: #d97706; }
-#tournament { background: #ef4444; }
-#tournament:hover { background: #dc2626; }
-#create-game, #startTournamentBtn { background: #3b82f6; }
+#tournament { background: #a50101; }
+#tournament:hover { background: #ed3a3a; }
+#game-lobby { background: #c70000; }
+#game-lobby:hover { background: #ed3a3a; }
+#create-game, #startTournamentBtn { background: #ff0000; }
 #create-game:hover, #startTournamentBtn:hover { background: #2563eb; }
 #close-online-modal, #close-tournament-modal, #delete-game, #set-name, #show-history { background: #6b7280; }
 #close-online-modal:hover, #close-tournament-modal:hover, #delete-game:hover, #set-name:hover, #show-history:hover { background: #4b5563; }
+#forfeit-game { background: #dc2626; }
+#forfeit-game:hover { background: #b91c1c; }
 #piece-theme, #time-mode, #color-choice {
   width: 100%;
   padding: 0.75rem;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  background: #f9fafb;
-  color: #1f2937;
+  background: #4b5563;
+  color: #f9fafb;
   font-size: 0.95rem;
 }
-#promotionModal, #online-games-modal, #create-tournament-modal {
+#promotionModal, #online-games-modal, #create-tournament-modal, #history-modal, #game-lobby-modal {
   display: none;
   position: fixed;
   max-height: 80vh;
@@ -128,18 +160,18 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #ffffff;
+  background: #374151;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 0, 0, 0.2);
   width: 90%;
   max-width: min(500px, 90vw);
-  color: #1f2937;
+  color: #f9fafb;
 }
 .modal-content h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #111827;
+  color: #f9fafb;
   margin-bottom: 1.5rem;
 }
 .piece-option {
@@ -157,7 +189,7 @@ button:hover {
   overflow-y: auto;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background: #f9fafb;
+  background: #4b5563;
 }
 .game-item {
   cursor: pointer;
@@ -167,13 +199,13 @@ button:hover {
   font-size: 0.95rem;
 }
 .game-item:hover {
-  background: #e5e7eb;
+  background: #6b7280;
 }
 .form-label {
   display: block;
   text-align: left;
   font-weight: 600;
-  color: #111827;
+  color: #f9fafb;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
@@ -182,13 +214,13 @@ input, select {
   padding: 0.75rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  background: #f9fafb;
-  color: #1f2937;
+  background: #4b5563;
+  color: #f9fafb;
   font-size: 0.95rem;
 }
 input:focus, select:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #ff0000;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 #custom-time-inputs {
@@ -230,16 +262,16 @@ footer {
   bottom: 0;
   width: 100%;
   max-width: 920px;
-  background: rgba(255,255,255,0.95);
-  color: #111827;
+  background: rgba(55, 65, 81, 0.95);
+  color: #f9fafb;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  box-shadow: 0 -6px 18px rgba(0,0,0,0.25);
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.25), 0 0 20px rgba(255, 0, 0, 0.1);
   z-index: 1100;
   padding: 12px;
 }
 #my-creations.hidden { display: none; }
 #my-creations .my-creations-inner { display:flex; gap:12px; align-items:flex-start; justify-content:space-between; }
 #created-games-list, #created-tournaments-list { max-height: 160px; overflow-y: auto; width: 48%; }
-.creation-item { padding:8px; border-bottom:1px solid #e5e7eb; background:#fff; margin-bottom:6px; border-radius:6px; display:flex; align-items:center; justify-content:space-between; }
+.creation-item { padding:8px; border-bottom:1px solid #e5e7eb; background:#4b5563; margin-bottom:6px; border-radius:6px; display:flex; align-items:center; justify-content:space-between; }
 #show-my-creations { background:#111827; }
