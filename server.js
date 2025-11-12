@@ -576,6 +576,75 @@ wss.on('connection', (ws) => {
         broadcastLobby();
         break;
 
+      default:
+        ws.send(JSON.stringify({ type: 'error', message: 'Unknown message type' }));
+        break;
+    }
+  });
+
+  ws.on('close', () => {
+    const client = clients.get(ws);
+    if (client) {
+      if (client.gameId) {
+        const game = games.get(client.gameId);
+        if (game) {
+          if (game.timerInterval) clearInterval(game.timerInterval);
+          game.isActive = false;
+          // If this was a tournament game, count as forfeit win for the opponent
+          if (game.tournamentId) {
+            const t = tournaments.get(game.tournamentId);
+            if (t) {
+              const white = game.whitePlayerName;
+              const black = game.blackPlayerName;
+              let winnerName = null;
+              if (game.whitePlayer === client.id) winnerName = black; else if (game.blackPlayer === client.id) winnerName = white;
+              const resultText = winnerName ? `${winnerName} wins (opponent disconnected)` : 'Game ended (disconnect)';
+              const gameResult = winnerName === white ? '1-0' : winnerName === black ? '0-1' : '0.5-0.5';
+              broadcastToGame(client.gameId, { type: 'gameOver', result: resultText });
+              t.results.push({ round: game.round || t.currentRound, white, black, result: gameResult, winner: winnerName });
+              if (winnerName === white) t.scores[white] = (t.scores[white] || 0) + 1;
+              else if (winnerName === black) t.scores[black] = (t.scores[black] || 0) + 1;
+              else {
+                t.scores[white] = (t.scores[white] || 0) + 0.5;
+                t.scores[black] = (t.scores[black] || 0) + 0.5;
+              }
+              if (t.activeGames) t.activeGames.delete(game.id);
+              if (t.activeGames && t.activeGames.size === 0) {
+                if (t.currentRound < t.rounds) {
+                  t.currentRound += 1;
+                  startTournamentRound(t);
+                } else {
+                  t.finished = true;
+                  const maxScore = Math.max(...Object.values(t.scores));
+                  const winners = Object.keys(t.scores).filter(p => t.scores[p] === maxScore);
+                  broadcastToTournament(t.id, {
+                    type: 'tournamentFinished',
+                    tournamentId: t.id,
+                    winners,
+                    scores: t.scores,
+                    results: t.results,
+                    leaderboard: Object.entries(t.scores).sort((a,b)=>b[1]-a[1])
+                  });
+                }
+              }
+            }
+          } else {
+            broadcastToGame(client.gameId, { type: 'opponentDisconnected' });
+          }
+          games.delete(client.gameId);
+          console.log(`Player ${client.name} disconnected from game ${client.gameId}, game deleted`);
+        }
+      }
+      clients.delete(ws);
+      broadcastLobby();
+    }
+  });
+
+  ws.on('error', (err) => {
+    console.error('WebSocket error:', err);
+  });
+});
+
 // Swiss pairing: pair by score, avoid repeats
 function generateSwissPairings(players, results, round, scores) {
   const sorted = [...players].sort((a, b) => (scores[b] - scores[a]) || (Math.random() - 0.5));
@@ -717,77 +786,6 @@ function startTournamentRound(t) {
     assignments
   });
 }
-
-// (Removed duplicate startTournamentRound definition to avoid conflicts)
-
-      default:
-        ws.send(JSON.stringify({ type: 'error', message: 'Unknown message type' }));
-        break;
-    }
-  });
-
-  ws.on('close', () => {
-    const client = clients.get(ws);
-    if (client) {
-      if (client.gameId) {
-        const game = games.get(client.gameId);
-        if (game) {
-          if (game.timerInterval) clearInterval(game.timerInterval);
-          game.isActive = false;
-          // If this was a tournament game, count as forfeit win for the opponent
-          if (game.tournamentId) {
-            const t = tournaments.get(game.tournamentId);
-            if (t) {
-              const white = game.whitePlayerName;
-              const black = game.blackPlayerName;
-              let winnerName = null;
-              if (game.whitePlayer === client.id) winnerName = black; else if (game.blackPlayer === client.id) winnerName = white;
-              const resultText = winnerName ? `${winnerName} wins (opponent disconnected)` : 'Game ended (disconnect)';
-              const gameResult = winnerName === white ? '1-0' : winnerName === black ? '0-1' : '0.5-0.5';
-              broadcastToGame(client.gameId, { type: 'gameOver', result: resultText });
-              t.results.push({ round: game.round || t.currentRound, white, black, result: gameResult, winner: winnerName });
-              if (winnerName === white) t.scores[white] = (t.scores[white] || 0) + 1;
-              else if (winnerName === black) t.scores[black] = (t.scores[black] || 0) + 1;
-              else {
-                t.scores[white] = (t.scores[white] || 0) + 0.5;
-                t.scores[black] = (t.scores[black] || 0) + 0.5;
-              }
-              if (t.activeGames) t.activeGames.delete(game.id);
-              if (t.activeGames && t.activeGames.size === 0) {
-                if (t.currentRound < t.rounds) {
-                  t.currentRound += 1;
-                  startTournamentRound(t);
-                } else {
-                  t.finished = true;
-                  const maxScore = Math.max(...Object.values(t.scores));
-                  const winners = Object.keys(t.scores).filter(p => t.scores[p] === maxScore);
-                  broadcastToTournament(t.id, {
-                    type: 'tournamentFinished',
-                    tournamentId: t.id,
-                    winners,
-                    scores: t.scores,
-                    results: t.results,
-                    leaderboard: Object.entries(t.scores).sort((a,b)=>b[1]-a[1])
-                  });
-                }
-              }
-            }
-          } else {
-            broadcastToGame(client.gameId, { type: 'opponentDisconnected' });
-          }
-          games.delete(client.gameId);
-          console.log(`Player ${client.name} disconnected from game ${client.gameId}, game deleted`);
-        }
-      }
-      clients.delete(ws);
-      broadcastLobby();
-    }
-  });
-
-  ws.on('error', (err) => {
-    console.error('WebSocket error:', err);
-  });
-});
 
 function broadcastToGame(gameId, message) {
   const game = games.get(gameId);
