@@ -25,6 +25,9 @@
   let blackPlayerName = 'Unknown';
   let soundsMuted = false;
   let lastSoundTime = {};
+  let currentZoom = 1; // 0=small, 1=normal, 2=large, 3=xlarge
+  const zoomLevels = ['zoom-small', 'zoom-normal', 'zoom-large', 'zoom-xlarge'];
+  const zoomLabels = ['80%', '100%', '120%', '140%'];
 
   // Sound effects
   const sounds = {
@@ -171,13 +174,14 @@
           $('#player-color').text(`Your Color: ${playerColor === 'w' ? 'White' : 'Black'}`);
           // Play game start sound
           playSound('gamestart');
+          showTimers(); // Show the timer section
           if (data.timeMode === 'none') {
-            $('#white-timer').text(`White (${whitePlayerName}): No Timer`).show();
-            $('#black-timer').text(`Black (${blackPlayerName}): No Timer`).show();
+            $('#white-timer').text(`White (${whitePlayerName}): No Timer`);
+            $('#black-timer').text(`Black (${blackPlayerName}): No Timer`);
             $('#status').text(`Game ${gameId} started. You play ${playerColor === 'w' ? 'White' : 'Black'} (No Timer).`);
           } else {
-            $('#white-timer').text(`White (${whitePlayerName}): ${formatTime(data.whiteTime || data.timeControl.minutes * 60)}`).show();
-            $('#black-timer').text(`Black (${blackPlayerName}): ${formatTime(data.blackTime || data.timeControl.minutes * 60)}`).show();
+            $('#white-timer').text(`White (${whitePlayerName}): ${formatTime(data.whiteTime || data.timeControl.minutes * 60)}`);
+            $('#black-timer').text(`Black (${blackPlayerName}): ${formatTime(data.blackTime || data.timeControl.minutes * 60)}`);
             $('#status').text(`Game ${gameId} started. You play ${playerColor === 'w' ? 'White' : 'Black'}.`);
             if (data.turn === 'w') {
               $('#white-timer').addClass('active');
@@ -232,8 +236,10 @@
           if (data.result === 'timeout') {
             alert(`${data.winner.charAt(0).toUpperCase() + data.winner.slice(1)} wins by timeout!`);
           }
-          $('#white-timer').text(`White (${whitePlayerName}): Game Over`).show();
-          $('#black-timer').text(`Black (${blackPlayerName}): Game Over`).show();
+          $('#white-timer').text(`White (${whitePlayerName}): Game Over`);
+          $('#black-timer').text(`Black (${blackPlayerName}): Game Over`);
+          // Hide timers after a short delay to show final state
+          setTimeout(hideTimers, 3000);
           // Play victory sound for game completion
           playSound('victory');
           localStorage.removeItem('gameId');
@@ -374,8 +380,9 @@
           playerColor = null;
           gameMode = null;
           $('#delete-game').addClass('hidden');
-          $('#white-timer').text(`White (${$('#white-player').text()}): Disconnected`).show();
-          $('#black-timer').text(`Black (${$('#black-player').text()}): Disconnected`).show();
+          showTimers(); // Show timers to display disconnected status
+          $('#white-timer').text(`White (${$('#white-player').text()}): Disconnected`);
+          $('#black-timer').text(`Black (${$('#black-player').text()}): Disconnected`);
           $('#player-color').text('Your Color: None');
           break;
       }
@@ -384,7 +391,8 @@
     ws.onclose = () => {
       console.log('WebSocket disconnected, attempting to reconnect...');
       $('#status').text('Disconnected from server. Reconnecting...');
-      $('#white-timer').text(`White (${$('#white-player').text()}): Disconnected`).show();
+      showTimers(); // Show timers to display disconnected status
+      $('#white-timer').text(`White (${$('#white-player').text()}): Disconnected`);
       $('#black-timer').text(`Black (${$('#black-player').text()}): Disconnected`).show();
       setTimeout(connectWebSocket, 3000);
     };
@@ -432,6 +440,15 @@
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+  }
+
+  // Helper function to show/hide timer section
+  function showTimers() {
+    $('#timer-section').addClass('show');
+  }
+
+  function hideTimers() {
+    $('#timer-section').removeClass('show');
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -545,15 +562,60 @@
       initializeBoard(selectedTheme);
     });
 
+    // Game Settings Menu
+    $('#settings-toggle').click(function(e) {
+      e.stopPropagation();
+      const dropdown = $('#settings-dropdown');
+      const cog = $(this);
+      
+      if (dropdown.hasClass('show')) {
+        dropdown.removeClass('show');
+        cog.removeClass('active');
+      } else {
+        dropdown.addClass('show');
+        cog.addClass('active');
+      }
+    });
+
+    // Close settings menu when clicking outside
+    $(document).click(function(e) {
+      if (!$(e.target).closest('.game-settings').length) {
+        $('#settings-dropdown').removeClass('show');
+        $('#settings-toggle').removeClass('active');
+      }
+    });
+
     // Mute sounds button
     $('#mute-sounds').click(() => {
       soundsMuted = !soundsMuted;
       const button = $('#mute-sounds');
       if (soundsMuted) {
-        button.text('🔇 Sounds Off').addClass('muted');
+        button.text('🔇 Off').addClass('muted');
       } else {
-        button.text('🔊 Sounds On').removeClass('muted');
+        button.text('🔊 On').removeClass('muted');
       }
+    });
+
+    // Zoom button
+    $('#zoom-board').click(() => {
+      currentZoom = (currentZoom + 1) % zoomLevels.length;
+      const boardContainer = $('#boardContainer');
+      
+      // Remove all zoom classes
+      zoomLevels.forEach(zoomClass => boardContainer.removeClass(zoomClass));
+      
+      // Add current zoom class
+      boardContainer.addClass(zoomLevels[currentZoom]);
+      
+      // Update button text
+      $('#zoom-board').text(`🔍 ${zoomLabels[currentZoom]}`);
+      
+      // Resize the board after zoom change
+      setTimeout(() => {
+        if (board && typeof board.resize === 'function') {
+          board.resize();
+        }
+      }, 350); // Wait for CSS transition to complete
     });
 
     $('#new-game-computer').click(() => {
@@ -564,7 +626,7 @@
       board.position('start');
       board.orientation('white');
       $('#status').text('Game started against computer.');
-      $('#white-timer, #black-timer').hide();
+      hideTimers(); // Hide timer section for local games
       $('#promotionModal').hide();
   $('#tournamentInfo').addClass('hidden');
       $('#online-games-modal').hide();
@@ -582,7 +644,7 @@
       board.position('start');
       board.orientation('white');
       $('#status').text('Local multiplayer game started.');
-      $('#white-timer, #black-timer').hide();
+      hideTimers(); // Hide timer section for local games
       $('#promotionModal').hide();
   $('#tournamentInfo').addClass('hidden');
   $('#online-games-modal').hide();
@@ -606,7 +668,7 @@
       board.position(currentPuzzle.fen);
       board.orientation(playerColor === 'w' ? 'white' : 'black');
       $('#status').text(`Puzzle: Find the best move for ${playerColor === 'w' ? 'White' : 'Black'}`);
-      $('#white-timer, #black-timer').hide();
+      hideTimers(); // Hide timer section for puzzle mode
       $('#online-games-modal').hide();
       $('#player-color').text(`Your Color: ${playerColor === 'w' ? 'White' : 'Black'}`);
       // Play game start sound
