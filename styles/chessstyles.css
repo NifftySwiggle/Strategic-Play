@@ -28,7 +28,7 @@ h1 {
 .settings-cog {
   background: #374151;
   color: #f9fafb;
-  border: 2px solid #6366f1;
+  border: 2px solid #ff0000;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -48,8 +48,8 @@ h1 {
 }
 
 .settings-cog.active {
-  background: #6366f1;
-  border-color: #4f46e5;
+  background: #ff0000;
+  border-color: #e54646;
   transform: rotate(180deg);
 }
 
@@ -134,12 +134,12 @@ h1 {
 }
 
 .zoom-control {
-  border-color: #10b981;
+  border-color: #ff0000;
 }
 
 .zoom-control:hover {
   background: #4b5563;
-  border-color: #10b981;
+  border-color: #b91010;
 }
 .main-container {
   width: 100%;
