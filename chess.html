@@ -69,18 +69,39 @@
     <!--<button class="wallet-btn">Connect Wallet</button>-->
   </nav>
   <h1 class="text-4xl font-bold mb-4" style="margin-top:120px; text-align:center;">Strategic Play</h1>
-  <button id="mute-sounds" class="mute-button">🔊 Sounds On</button>
+  
+  <!-- Game Settings Menu -->
+  <div id="game-settings-menu" class="game-settings">
+    <button id="settings-toggle" class="settings-cog">⚙️</button>
+    <div id="settings-dropdown" class="settings-dropdown">
+      <div class="settings-header">Game Settings</div>
+      <div class="settings-item">
+        <label>Sound:</label>
+        <button id="mute-sounds" class="setting-button sound-toggle">🔊 On</button>
+      </div>
+      <div class="settings-item">
+        <label>Zoom:</label>
+        <button id="zoom-board" class="setting-button zoom-control">🔍 100%</button>
+      </div>
+    </div>
+  </div>
+  
   <div class="main-container">
     <div class="flex flex-col items-center">
       <div id="boardContainer">
+        <!-- Timer Section fixed to top of board -->
+        <div id="timer-section" class="text-center mb-4">
+          <div class="inline-flex gap-6 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg">
+            <div id="white-timer" class="font-semibold text-base">White <span id="white-player"></span>: 3:00</div>
+            <div id="black-timer" class="font-semibold text-base">Black <span id="black-player"></span>: 3:00</div>
+          </div>
+        </div>
         <div id="chessboard"></div>
       </div>
       <div id="gameInfo" class="bg-white p-4 rounded shadow">
         <p id="status" class="mb-2 font-semibold text-lg">Select a game mode to start</p>
         <p id="player-color" class="mb-2 text-base">Your Color: None</p>
         <p id="turn" class="mb-2 text-base">Turn: White</p>
-        <p id="white-timer" class="mb-2 text-base">White <span id="white-player"></span>: 3:00</p>
-        <p id="black-timer" class="mb-2 text-base">Black <span id="black-player"></span>: 3:00</p>
       </div>
     </div>
     <div class="flex flex-col gap-4">
@@ -193,7 +214,35 @@
     <p>&copy; 2025 Strategic Play Chess Game</p>
     <p>Created by NifftySwiggle</p>
   </footer>
+  <script src="./scripts/indexscript.js" defer></script>
   <script src="./scripts/chessscript.js" defer></script>
+  
+  <!-- Mobile Navigation Fix -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navToggle = document.querySelector('.nav-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      
+      if (navToggle && navLinks) {
+        navToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Nav toggle clicked!'); // Debug log
+          navLinks.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('active');
+          }
+        });
+      } else {
+        console.log('Nav toggle or nav links not found');
+      }
+    });
+  </script>
+  
   <script>
     // Favicon Theme Detection and Dynamic Change
     function updateFavicon() {
