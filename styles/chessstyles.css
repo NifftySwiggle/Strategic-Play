@@ -14,35 +14,132 @@ h1 {
   font-weight: 700;
   color: #f9fafb;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.5rem;
 }
-.mute-button {
+/* Game Settings Menu */
+.game-settings {
   position: fixed;
   top: 140px;
   right: 20px;
-  background: #374151;
-  color: #f9fafb;
-  border: 2px solid #dc2626;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(220, 38, 38, 0.2);
-  transition: all 0.3s ease;
   z-index: 1000;
 }
-.mute-button:hover {
+
+.settings-cog {
+  background: #374151;
+  color: #f9fafb;
+  border: 2px solid #6366f1;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(99, 102, 241, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-cog:hover {
   background: #4b5563;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px) rotate(90deg);
+}
+
+.settings-cog.active {
+  background: #6366f1;
+  border-color: #4f46e5;
+  transform: rotate(180deg);
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 12px;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.settings-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.settings-header {
+  background: #374151;
+  color: #f9fafb;
+  padding: 12px 16px;
+  border-radius: 10px 10px 0 0;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #4b5563;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #374151;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.settings-item label {
+  color: #f9fafb;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.setting-button {
+  background: #374151;
+  color: #f9fafb;
+  border: 1px solid #4b5563;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+  text-align: center;
+}
+
+.setting-button:hover {
+  background: #4b5563;
   transform: translateY(-1px);
 }
-.mute-button.muted {
+
+.sound-toggle.muted {
   background: #dc2626;
   border-color: #b91c1c;
+  color: #fff;
 }
-.mute-button.muted:hover {
+
+.sound-toggle.muted:hover {
   background: #b91c1c;
+}
+
+.zoom-control {
+  border-color: #10b981;
+}
+
+.zoom-control:hover {
+  background: #4b5563;
+  border-color: #10b981;
 }
 .main-container {
   width: 100%;
@@ -52,9 +149,10 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
-  padding: 1.5rem;
+  padding: 0.5rem;
+  padding-top: 2rem; /* Extra top padding to give space for timer */
 }
 /* Responsive board container: stays square and fits device width between a sensible min and max */
 #boardContainer {
@@ -68,10 +166,46 @@ h1 {
   margin: 0 auto;
   touch-action: none;
   background: #374151;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.1);
-  padding: 0.5rem;
+  padding: 0.25rem;
   flex-shrink: 0;
+  position: relative;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+/* Zoom levels */
+#boardContainer.zoom-small {
+  transform: scale(0.8);
+}
+
+#boardContainer.zoom-normal {
+  transform: scale(1);
+}
+
+#boardContainer.zoom-large {
+  transform: scale(1.2);
+}
+
+#boardContainer.zoom-xlarge {
+  transform: scale(1.4);
+}
+
+/* Timer zoom compensation - keep text fixed size while following board */
+#boardContainer.zoom-small #timer-section {
+  transform: translateX(-50%) scale(1.25); /* Counteract 0.8x: 1/0.8 = 1.25 */
+}
+
+#boardContainer.zoom-normal #timer-section {
+  transform: translateX(-50%) scale(1); /* Normal size: 1/1 = 1 */
+}
+
+#boardContainer.zoom-large #timer-section {
+  transform: translateX(-50%) scale(0.8333); /* Counteract 1.2x: 1/1.2 = 0.8333 */
+}
+
+#boardContainer.zoom-xlarge #timer-section {
+  transform: translateX(-50%) scale(0.7143); /* Counteract 1.4x: 1/1.4 = 0.7143 */
 }
 
 /* Chessboard fills the container and maintains square aspect ratio */
@@ -85,10 +219,10 @@ h1 {
 }
 #gameInfo {
   background: #374151;
-  padding: 1.5rem;
-  border-radius: 12px;
+  padding: 1rem;
+  border-radius: 8px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 0, 0, 0.1);
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   text-align: center;
   width: 100%;
   max-width: min(40vw, 560px);
@@ -98,12 +232,65 @@ h1 {
   font-weight: bold;
   color: #dc2626;
 }
+
+/* Timer section styling */
+#timer-section {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: -3rem; /* Fixed above the board, not over it */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20; /* Above board but below UI elements */
+  width: max-content;
+  pointer-events: none; /* Allow clicks through to board */
+}
+
+#timer-section.show {
+  display: block;
+}
+
+#timer-section .inline-flex {
+  background: rgba(55, 65, 81, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  width: fit-content;
+  pointer-events: auto; /* Re-enable clicks on timer */
+}
+
+#timer-section #white-timer.active, 
+#timer-section #black-timer.active {
+  color: #ef4444;
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+@media (max-width: 768px) {
+  #timer-section {
+    top: -4rem; /* Much further above board on mobile to avoid overlap */
+    z-index: 5; /* Lower z-index to avoid nav conflicts */
+  }
+  #timer-section .inline-flex {
+    flex-direction: column;
+    gap: 0.125rem; /* Tighter gap for compact mobile layout */
+    padding: 0.375rem 0.625rem; /* More compact padding */
+    font-size: 0.8125rem; /* Smaller text for mobile screens */
+    border-radius: 6px; /* Slightly smaller border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), 0 0 15px rgba(255, 0, 0, 0.08); /* Softer shadow */
+  }
+  #timer-section #white-timer,
+  #timer-section #black-timer {
+    line-height: 1.2; /* Tighter line height for mobile */
+    font-weight: 600; /* Slightly bolder for better readability */
+  }
+}
 #gameControls, #tournamentInfo {
   width: 100%;
   max-width: 360px;
   background: #374151;
-  padding: 1.5rem;
-  border-radius: 12px;
+  padding: 1rem;
+  border-radius: 8px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 0, 0, 0.1);
   color: #f9fafb;
 }
@@ -237,20 +424,54 @@ footer {
   .main-container {
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    padding: 0.25rem;
+    padding-top: 2.5rem; /* More space at top for timer positioned higher */
+    gap: 0.75rem;
   }
   #boardContainer, #chessboard {
     max-width: min(90vw, 360px);
     min-width: 180px;
   }
+  #boardContainer {
+    padding: 0.125rem;
+  }
   #gameInfo {
     max-width: min(90vw, 480px);
+    padding: 0.75rem;
+    margin-top: 0.25rem;
   }
   #gameControls, #tournamentInfo {
     max-width: 400px;
+    padding: 0.75rem;
   }
   h1 {
     font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .game-settings {
+    top: 110px;
+    right: 10px;
+  }
+  
+  .settings-cog {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .settings-dropdown {
+    min-width: 180px;
+    top: 50px;
+  }
+  
+  .settings-item {
+    padding: 10px 12px;
+  }
+  
+  .setting-button {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-width: 60px;
   }
 }
 
