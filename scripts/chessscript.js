@@ -5,7 +5,7 @@
     return;
   }
 
-  // let ws = new WebSocket('ws://localhost:8080');
+  //let ws = new WebSocket('ws://localhost:8080');
   let ws = new WebSocket('wss://strategic-play.onrender.com');
   let gameId = localStorage.getItem('gameId');
   let playerName = localStorage.getItem('playerName') || 'Player' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
@@ -24,6 +24,7 @@
   let whitePlayerName = 'Unknown';
   let blackPlayerName = 'Unknown';
   let soundsMuted = false;
+  let lastSoundTime = {};
 
   // Sound effects
   const sounds = {
@@ -37,6 +38,13 @@
   // Function to play sound if not muted
   function playSound(soundName) {
     if (!soundsMuted && sounds[soundName]) {
+      const now = Date.now();
+      // Prevent duplicate sounds within 100ms (except for gamestart and victory)
+      if (soundName !== 'gamestart' && soundName !== 'victory' && 
+          lastSoundTime[soundName] && now - lastSoundTime[soundName] < 100) {
+        return;
+      }
+      lastSoundTime[soundName] = now;
       sounds[soundName].play().catch(e => console.log('Sound play failed:', e));
     }
   }
@@ -188,7 +196,7 @@
             board.position(game.fen());
             $('#turn').text(`Turn: ${game.turn() === 'w' ? 'White' : 'Black'}`);
             updateGameInfo();
-            // Play sound based on whether a piece was captured
+            // Play sound for all moves in online games (both player's own moves and opponent moves)
             if (moveResult.captured) {
               playSound('take');
             } else {
@@ -226,10 +234,8 @@
           }
           $('#white-timer').text(`White (${whitePlayerName}): Game Over`).show();
           $('#black-timer').text(`Black (${blackPlayerName}): Game Over`).show();
-          // Play victory sound if player won
-          if (data.winner && data.winner === playerColor) {
-            playSound('victory');
-          }
+          // Play victory sound for game completion
+          playSound('victory');
           localStorage.removeItem('gameId');
           gameId = null;
           gameStarted = false;
@@ -564,6 +570,8 @@
       $('#online-games-modal').hide();
   requestAnimationFrame(() => safeResize());
       $('#player-color').text('Your Color: White');
+      // Play game start sound
+      playSound('gamestart');
       updateGameInfo();
     });
     $('#local-multiplayer').click(() => {
@@ -580,6 +588,8 @@
   $('#online-games-modal').hide();
   requestAnimationFrame(() => safeResize());
       $('#player-color').text('Your Color: White');
+      // Play game start sound
+      playSound('gamestart');
       updateGameInfo();
     });
     $('#puzzle-mode').click(() => {
@@ -599,6 +609,8 @@
       $('#white-timer, #black-timer').hide();
       $('#online-games-modal').hide();
       $('#player-color').text(`Your Color: ${playerColor === 'w' ? 'White' : 'Black'}`);
+      // Play game start sound
+      playSound('gamestart');
       updateGameInfo();
     });
     $('.piece-option').click(function() {
@@ -725,6 +737,18 @@
     const result = game.move(move);
     if (result) {
       board.position(game.fen());
+      
+      // Play sound for the move (for all game modes to ensure immediate feedback)
+      if (result.captured) {
+        playSound('take');
+      } else {
+        playSound('move');
+      }
+      // Play check sound if opponent is in check
+      if (game.in_check()) {
+        playSound('check');
+      }
+      
       if (gameMode === 'online' || gameMode === 'tournament') {
         sendMessage({ type: 'move', gameId, move, player: playerColor });
       } else if (gameMode === 'computer' && !game.game_over() && game.turn() !== playerColor) {
@@ -925,11 +949,25 @@
   }
 
   function updateGameInfo() {
-    $('#status').text(game.in_checkmate() ? `Checkmate! ${game.turn() === 'w' ? 'Black' : 'White'} wins!` :
-                      game.in_draw() ? 'Draw!' :
-                      game.in_check() ? 'Check!' :
-                      gameStarted ? `${game.turn() === 'w' ? 'White' : 'Black'} to move` :
-                      'Select a game mode to start');
+    if (game.in_checkmate()) {
+      $('#status').text(`Checkmate! ${game.turn() === 'w' ? 'Black' : 'White'} wins!`);
+      // Play victory sound for game completion
+      if (gameMode !== 'online' && gameMode !== 'tournament') {
+        playSound('victory');
+      }
+    } else if (game.in_draw()) {
+      $('#status').text('Draw!');
+      // Play victory sound for game completion
+      if (gameMode !== 'online' && gameMode !== 'tournament') {
+        playSound('victory');
+      }
+    } else if (game.in_check()) {
+      $('#status').text('Check!');
+    } else if (gameStarted) {
+      $('#status').text(`${game.turn() === 'w' ? 'White' : 'Black'} to move`);
+    } else {
+      $('#status').text('Select a game mode to start');
+    }
     $('#turn').text(`Turn: ${game.turn() === 'w' ? 'White' : 'Black'}`);
   }
 })();
